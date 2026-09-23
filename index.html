@@ -149,6 +149,21 @@
   :root[data-theme="dark"] .btn.primary{color:#221416}
   @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#221416}}
   .who-mark{font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--ok); display:block; margin-top:3px}
+  .note{display:block; margin-top:5px}
+  .note-text{
+    display:inline-block; font-size:12.5px; font-weight:400; color:var(--warn);
+    background:var(--warn-soft); border-radius:7px; padding:3px 8px; cursor:text; max-width:100%;
+  }
+  .note-add{
+    font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--muted);
+    background:none; border:0; padding:0; cursor:pointer; text-decoration:underline dotted;
+  }
+  .note-add:hover{color:var(--ink-2)}
+  .note-input{
+    width:100%; max-width:420px; font:inherit; font-size:13px; font-weight:400;
+    background:var(--surface); color:var(--ink); border:1px solid var(--accent);
+    border-radius:8px; padding:5px 8px;
+  }
   .factbar{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:12px}
   .field{display:flex; flex-direction:column; gap:3px}
   .field label{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
@@ -450,6 +465,7 @@
   // ─────────────────────────────────────────────────────────────
 
   var KURL  = "birka-rop-api-url";
+  var KNOTES = "birka-rop-notes";
   var KEY   = "birka-rop-onboarding-v1";
   var KWHO  = "birka-rop-who";
   var KPIN  = "birka-rop-pin";
@@ -457,6 +473,7 @@
   var boxes = Array.prototype.slice.call(document.querySelectorAll('input[type=checkbox]'));
   var state = {};
   var metrics = [];
+  var notes = {};
   var pending = {};
   var timer = null;
 
@@ -497,6 +514,71 @@
   function paintRow(box){
     var li = box.closest('li');
     if (li) li.classList.toggle('done', box.checked);
+  }
+
+  function noteHost(box){
+    var lbl = document.querySelector('label[for="' + box.id + '"]');
+    if (!lbl) return null;
+    var host = lbl.querySelector('.note');
+    if (!host){
+      host = document.createElement('span');
+      host.className = 'note';
+      lbl.appendChild(host);
+    }
+    return host;
+  }
+
+  function renderNote(box){
+    var host = noteHost(box);
+    if (!host) return;
+    var txt = notes[box.id] || '';
+    host.innerHTML = '';
+    if (txt){
+      var span = document.createElement('span');
+      span.className = 'note-text';
+      span.textContent = txt;
+      span.title = 'Нажми, чтобы изменить';
+      span.addEventListener('click', function(e){ e.preventDefault(); editNote(box); });
+      host.appendChild(span);
+    } else {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'note-add';
+      btn.textContent = 'комментарий';
+      btn.addEventListener('click', function(e){ e.preventDefault(); editNote(box); });
+      host.appendChild(btn);
+    }
+  }
+
+  function editNote(box){
+    var host = noteHost(box);
+    if (!host) return;
+    host.innerHTML = '';
+    var inp = document.createElement('input');
+    inp.className = 'note-input';
+    inp.value = notes[box.id] || '';
+    inp.placeholder = 'например: жду бизнес-ассистента';
+    host.appendChild(inp);
+    inp.focus();
+    var done = false;
+    function finish(save){
+      if (done) return;
+      done = true;
+      if (save){
+        var v = inp.value.trim();
+        if (v) notes[box.id] = v; else delete notes[box.id];
+        try { localStorage.setItem(KNOTES, JSON.stringify(notes)); } catch(e) {}
+        var m = meta(box);
+        pending[box.id] = { key: box.id, label: m.label, section: m.section, value: box.checked, comment: v };
+        schedule();
+      }
+      renderNote(box);
+    }
+    inp.addEventListener('keydown', function(e){
+      if (e.key === 'Enter'){ e.preventDefault(); finish(true); }
+      if (e.key === 'Escape'){ e.preventDefault(); finish(false); }
+    });
+    inp.addEventListener('blur', function(){ finish(true); });
   }
 
   function stamp(box, info){
@@ -591,6 +673,8 @@
         if (!b.checked) delete state[b.id];
         paintRow(b);
         stamp(b, srv[b.id]);
+        if (srv[b.id].note) notes[b.id] = srv[b.id].note; else delete notes[b.id];
+        renderNote(b);
       }
     });
     metrics = res.metrics || [];
@@ -672,12 +756,12 @@
   // ── выгрузка в Excel ─────────────────────────────────────────
   document.getElementById('xlsx').addEventListener('click', function(){
     if (typeof XLSX === 'undefined'){ alert('Библиотека выгрузки не загрузилась — проверь интернет.'); return; }
-    var rows = [['Раздел', 'Пункт', 'Отмечено', 'Кто', 'Когда']];
+    var rows = [['Раздел', 'Пункт', 'Отмечено', 'Кто', 'Когда', 'Комментарий']];
     boxes.forEach(function(b){
       var m = meta(b);
       var lbl = document.querySelector('label[for="' + b.id + '"] .who-mark');
       var mark = lbl ? lbl.textContent.split(' · ') : ['', ''];
-      rows.push([m.section, m.label, b.checked ? 'да' : '', b.checked ? (mark[0] || who()) : '', mark[1] || '']);
+      rows.push([m.section, m.label, b.checked ? 'да' : '', b.checked ? (mark[0] || who()) : '', mark[1] || '', notes[b.id] || '']);
     });
     var wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Адаптация');
@@ -727,12 +811,14 @@
 
   // ── старт ────────────────────────────────────────────────────
   state = ls(function(){ return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; }, {});
+  notes = ls(function(){ return JSON.parse(localStorage.getItem(KNOTES) || '{}') || {}; }, {});
   whoInput.value = ls(function(){ return localStorage.getItem(KWHO) || ''; }, '');
   whoInput.addEventListener('change', function(){ ls(function(){ localStorage.setItem(KWHO, whoInput.value.trim()); }); });
 
   boxes.forEach(function(b){
     if (state[b.id]) b.checked = true;
     paintRow(b);
+    renderNote(b);
     b.addEventListener('change', function(){
       state[b.id] = b.checked;
       if (!b.checked) delete state[b.id];
