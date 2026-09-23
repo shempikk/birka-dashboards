@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ввод РОПа Birka Art в должность: доступы по ступеням, план 30/60/90, метрики и ритм управления.">
+<title>Ввод РОПа в должность</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ground:#FBFAF8; --surface:#FFFFFF; --surface-2:#F4F1ED;
+    --ink:#1C1A19; --ink-2:#4A4441; --muted:#7A726D; --line:#E4DED7;
+    --accent:#8E3B46; --accent-soft:#F3E4E4;
+    --ok:#3F6F52; --ok-soft:#E6EEE7;
+    --warn:#A2711F; --warn-soft:#F6EDDC;
+    --stop:#A33A2E; --stop-soft:#F7E5E1;
+    --shadow:0 1px 2px rgba(28,26,25,.05), 0 8px 24px -16px rgba(28,26,25,.25);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#161413; --surface:#1F1C1B; --surface-2:#272322;
+      --ink:#F2EDE9; --ink-2:#D2CAC4; --muted:#9C938D; --line:#332E2C;
+      --accent:#D98A94; --accent-soft:#3A2528;
+      --ok:#8CC2A0; --ok-soft:#22302A;
+      --warn:#DDAE5E; --warn-soft:#332A1C;
+      --stop:#E08878; --stop-soft:#3A2420;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px -16px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#161413; --surface:#1F1C1B; --surface-2:#272322;
+    --ink:#F2EDE9; --ink-2:#D2CAC4; --muted:#9C938D; --line:#332E2C;
+    --accent:#D98A94; --accent-soft:#3A2528;
+    --ok:#8CC2A0; --ok-soft:#22302A;
+    --warn:#DDAE5E; --warn-soft:#332A1C;
+    --stop:#E08878; --stop-soft:#3A2420;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+  *{box-sizing:border-box}
+  body{
+    background:var(--ground); color:var(--ink);
+    font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:15px; line-height:1.5; margin:0;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding-inline:18px; padding-block:28px 64px}
+  .eyebrow{
+    font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+  }
+  h1{font-size:clamp(26px,4.4vw,38px); line-height:1.12; margin:8px 0 10px; text-wrap:balance; font-weight:800; letter-spacing:-.02em}
+  h2{font-size:clamp(19px,2.6vw,23px); margin:0; font-weight:700; letter-spacing:-.01em; text-wrap:balance}
+  p.lede{color:var(--ink-2); max-width:62ch; margin:0 0 4px}
+  header.top{border-bottom:1px solid var(--line); padding-bottom:22px; margin-bottom:8px}
+  .topbar{display:flex; gap:16px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap}
+  .total{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:12px 16px; min-width:190px; box-shadow:var(--shadow);
+  }
+  .total b{font-size:26px; font-variant-numeric:tabular-nums; letter-spacing:-.02em}
+  .bar{height:5px; border-radius:99px; background:var(--surface-2); overflow:hidden; margin-top:8px}
+  .bar > i{display:block; height:100%; background:var(--accent); width:0%; transition:width .25s ease}
+  section{margin-top:40px}
+  .sechead{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:6px}
+  .sechead .count{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .secnote{color:var(--muted); font-size:13.5px; margin:0 0 18px; max-width:70ch}
+  .stage{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    margin-bottom:14px; overflow:hidden; box-shadow:var(--shadow);
+  }
+  .stage > header{
+    display:flex; gap:12px; align-items:center; justify-content:space-between;
+    padding:13px 16px; border-bottom:1px solid var(--line); background:var(--surface-2); flex-wrap:wrap;
+  }
+  .stage h3{margin:0; font-size:15.5px; font-weight:700}
+  .when{
+    font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.06em;
+    padding:3px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); white-space:nowrap;
+  }
+  .stage .prog{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--muted); font-variant-numeric:tabular-nums}
+  ul.rows{list-style:none; margin:0; padding:0}
+  ul.rows > li{
+    display:grid; grid-template-columns:22px 1fr 168px; gap:10px 12px;
+    padding:11px 16px; border-bottom:1px solid var(--line); align-items:start;
+  }
+  ul.rows > li:last-child{border-bottom:0}
+  .phase ul.rows > li{grid-template-columns:22px 1fr}
+  ul.rows > li.done .what{color:var(--muted); text-decoration:line-through; text-decoration-color:var(--line)}
+  input[type=checkbox]{width:17px; height:17px; margin:2px 0 0; accent-color:var(--accent); cursor:pointer}
+  .what{font-weight:600}
+  .lvl{display:block; font-weight:400; color:var(--ink-2); font-size:13.5px; margin-top:2px}
+  .who{
+    font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--muted);
+    text-align:right; padding-top:2px;
+  }
+  .stoplist{border:1px solid var(--stop); border-radius:14px; background:var(--stop-soft); padding:16px 18px}
+  .stoplist h3{margin:0 0 4px; font-size:15.5px; color:var(--stop)}
+  .stoplist ul{margin:10px 0 0; padding-left:18px}
+  .stoplist li{margin-bottom:7px; color:var(--ink-2)}
+  .stoplist li b{color:var(--ink)}
+  .grid3{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; align-items:start}
+  .phase{background:var(--surface); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); overflow:hidden}
+  .phase > header{padding:14px 16px 12px; border-bottom:1px solid var(--line)}
+  .phase .num{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.12em; color:var(--accent); text-transform:uppercase}
+  .phase h3{margin:5px 0 3px; font-size:16px}
+  .phase .aim{font-size:13.5px; color:var(--muted); margin:0}
+  .outcome{padding:13px 16px; background:var(--ok-soft); border-top:1px solid var(--line); font-size:13.5px; color:var(--ink-2)}
+  .outcome b{display:block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ok); margin-bottom:4px}
+  .tablewrap{overflow-x:auto; border:1px solid var(--line); border-radius:14px; background:var(--surface); box-shadow:var(--shadow)}
+  table{border-collapse:collapse; width:100%; min-width:560px; font-size:14px}
+  th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top}
+  th{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:500; background:var(--surface-2)}
+  tbody tr:last-child td{border-bottom:0}
+  td.num{font-variant-numeric:tabular-nums; white-space:nowrap}
+  .two{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; align-items:start}
+  .panel{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow)}
+  .panel h3{margin:0 0 10px; font-size:15.5px}
+  .rhythm{list-style:none; margin:0; padding:0}
+  .rhythm li{display:grid; grid-template-columns:86px 1fr; gap:12px; padding:8px 0; border-bottom:1px dashed var(--line)}
+  .rhythm li:last-child{border-bottom:0}
+  .rhythm span{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--accent); padding-top:2px}
+  .flags{list-style:none; margin:0; padding:0}
+  .flags li{padding:8px 0 8px 22px; position:relative; border-bottom:1px dashed var(--line); color:var(--ink-2); font-size:14px}
+  .flags li:last-child{border-bottom:0}
+  .flags li::before{content:""; position:absolute; left:2px; top:14px; width:9px; height:9px; border-radius:2px; background:var(--warn)}
+  footer.foot{margin-top:44px; padding-top:18px; border-top:1px solid var(--line); color:var(--muted); font-size:12.5px}
+  .reset{
+    background:none; border:1px solid var(--line); color:var(--muted); border-radius:8px;
+    padding:6px 11px; font:inherit; font-size:12px; cursor:pointer;
+  }
+  .reset:hover{color:var(--ink); border-color:var(--muted)}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  img{max-width:100%}
+  .sync{
+    margin-top:12px; border-top:1px solid var(--line); padding-top:10px;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .sync .state{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--muted); display:flex; align-items:center; gap:6px}
+  .dot{width:7px; height:7px; border-radius:99px; background:var(--muted); flex:none}
+  .dot.ok{background:var(--ok)} .dot.warn{background:var(--warn)} .dot.err{background:var(--stop)}
+  .sync .btns{display:flex; gap:6px; flex-wrap:wrap}
+  .btn{
+    background:var(--surface); border:1px solid var(--line); color:var(--ink-2); border-radius:8px;
+    padding:6px 10px; font:inherit; font-size:12px; cursor:pointer;
+  }
+  .btn:hover{border-color:var(--muted); color:var(--ink)}
+  .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
+  :root[data-theme="dark"] .btn.primary{color:#221416}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#221416}}
+  .who-mark{font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--ok); display:block; margin-top:3px}
+  .factbar{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:12px}
+  .field{display:flex; flex-direction:column; gap:3px}
+  .field label{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+  .field input, .field select{
+    background:var(--surface); border:1px solid var(--line); color:var(--ink); border-radius:8px;
+    padding:7px 9px; font:inherit; font-size:13px; min-width:120px;
+  }
+  .empty{color:var(--muted); font-size:13.5px; padding:16px; text-align:center}
+  .delta{font-variant-numeric:tabular-nums; font-weight:600}
+  .delta.up{color:var(--ok)} .delta.down{color:var(--stop)}
+  a{color:var(--accent)}
+  .cta{
+    display:inline-flex; align-items:center; gap:8px; margin-top:12px;
+    background:var(--accent); color:#fff; text-decoration:none; font-weight:600; font-size:13.5px;
+    padding:9px 14px; border-radius:10px; border:1px solid var(--accent);
+  }
+  :root[data-theme="dark"] .cta, :root:not([data-theme="light"]) .cta{color:#221416}
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .cta{color:#fff}}
+  .cta:hover{filter:brightness(1.06)}
+  .cta .arw{font-family:"IBM Plex Mono",monospace}
+  ol.keytasks{list-style:none; counter-reset:kt; margin:0; padding:0}
+  ol.keytasks > li{
+    counter-increment:kt; display:grid; grid-template-columns:30px 1fr 96px; gap:10px 12px;
+    padding:12px 0; border-bottom:1px dashed var(--line); align-items:start;
+  }
+  ol.keytasks > li:last-child{border-bottom:0}
+  ol.keytasks > li::before{
+    content:counter(kt); font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--accent);
+    background:var(--accent-soft); border-radius:7px; padding:3px 0; text-align:center; font-weight:500;
+  }
+  ol.keytasks .res{display:block; font-weight:400; color:var(--muted); font-size:13px; margin-top:3px}
+  ol.keytasks .due{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--muted); text-align:right; padding-top:4px; white-space:nowrap}
+  @media (max-width:560px){
+    ol.keytasks > li{grid-template-columns:30px 1fr}
+    ol.keytasks .due{grid-column:2; text-align:left; padding-top:0}
+  }
+  @media (max-width:560px){
+    ul.rows > li{grid-template-columns:22px 1fr}
+    .who{text-align:left; grid-column:2; padding-top:0}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="topbar">
+    <div>
+      <div class="eyebrow">Birka Art · отдел продаж</div>
+      <h1>Ввод РОПа в должность</h1>
+      <p class="lede">Что открыть и когда, чтобы человек мог работать — и что придержать до конца испытательного срока. Отметки уходят в связанную Google-таблицу и видны всем, у кого есть ссылка.</p>
+      <a class="cta" href="https://docs.google.com/spreadsheets/d/1OAWx2qa9HxQR72kf6JbuFhODyWNgf23H886W-P-UMzI/edit?gid=1230170400#gid=1230170400" target="_blank" rel="noopener">Таблица адаптации — её ведёт он <span class="arw">&rarr;</span></a>
+    </div>
+    <div class="total">
+      <div class="eyebrow">Готовность</div>
+      <b><span id="total-done">0</span> / <span id="total-all">0</span></b>
+      <div class="bar"><i id="total-bar"></i></div>
+      <div class="sync">
+        <div class="state"><span class="dot" id="sync-dot"></span><span id="sync-text">не подключено к таблице</span></div>
+        <div class="field"><label for="who">Кто отмечает</label><input id="who" placeholder="Имя" autocomplete="off"></div>
+        <div class="btns">
+          <button class="btn primary" id="pull">Обновить из таблицы</button>
+          <button class="btn" id="link">Подключить таблицу</button>
+          <button class="btn" id="xlsx">Выгрузить в Excel</button>
+          <button class="btn" id="reset">Сбросить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="access">
+  <div class="sechead"><h2>Доступы по ступеням</h2><span class="count" data-count-for="access"></span></div>
+  <p class="secnote">Задача первой недели — закрыть доступы целиком, чтобы он не ходил ни к кому за скриншотами. Отложены только те права, где ошибка стоит денег сразу: цены вне коридора, рекламные бюджеты, финансы.</p>
+  
+
+  <article class="stage" data-stage>
+    <header><h3>До выхода</h3><span class="when">день −1</span><span class="prog"></span></header>
+    <ul class="rows">
+      <li><input type="checkbox" id="a1"><label for="a1" class="what">Корпоративная почта и Google-аккаунт<span class="lvl">Без него не выдать ничего остального</span></label><span class="who">ты / IT</span></li>
+      <li><input type="checkbox" id="a2"><label for="a2" class="what">Битрикс24: профиль, отдел продаж, его группа задач<span class="lvl">Сразу постановщик задач для менеджеров МП</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="a3"><label for="a3" class="what">Телеграм: общий рабочий чат и чат ОП<span class="lvl">Читает, пока не поймёт контекст переписки</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="a4"><label for="a4" class="what">Папка «Онбординг РОП» на Google Диске<span class="lvl">Оргструктура, регламенты, реестр таблиц, ссылка на этот дашборд</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="a5"><label for="a5" class="what">Календарь: планёрки ОП, еженедельная сверка, 1:1 с тобой<span class="lvl">Ритм ставим до выхода, а не «как пойдёт»</span></label><span class="who">ты</span></li>
+    </ul>
+  </article>
+
+  <article class="stage" data-stage>
+    <header><h3>Первая неделя — рабочие доступы</h3><span class="when">дни 1–5</span><span class="prog"></span></header>
+    <ul class="rows">
+      <li><input type="checkbox" id="b1"><label for="b1" class="what">Wildberries: кабинет продавца<span class="lvl">Отдельная учётка на его почту, не твой логин. Аналитика, заказы, остатки, карточки, отзывы</span></label><span class="who">Слава</span></li>
+      <li><input type="checkbox" id="b2"><label for="b2" class="what">Ozon Seller<span class="lvl">Отдельная учётка на его почту, тот же объём прав</span></label><span class="who">Ольга</span></li>
+      <li><input type="checkbox" id="b3"><label for="b3" class="what">Lamoda: партнёрский кабинет<span class="lvl">Планов нет, только общий ориентир по году</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="b7"><label for="b7" class="what">Power BI<span class="lvl">Своя учётная запись, все отчёты по продажам</span></label><span class="who">ты / Рома</span></li>
+      <li><input type="checkbox" id="c5"><label for="c5" class="what">1С: остатки и товар в пути<span class="lvl">Без финансовых регистров и взаиморасчётов</span></label><span class="who">ты / Наталия Валерьевна</span></li>
+      <li><input type="checkbox" id="b4"><label for="b4" class="what">Дашборд метрик Birka Art<span class="lvl">Блок «ОП и КомДир» — его зона, с правом редактировать</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="b5"><label for="b5" class="what">Таблица оборачиваемости и плана заказов<span class="lvl">Главный рабочий файл: план в шт, покрытие, аудит артикулов</span></label><span class="who">ты / Рома</span></li>
+      <li><input type="checkbox" id="b6"><label for="b6" class="what">Реестр всех таблиц компании<span class="lvl">Чтобы не заводил свои файлы параллельно</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="b8"><label for="b8" class="what">Дашборды план/факт<span class="lvl">Ссылки на страницы, где компания уже считает факт</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="c4"><label for="c4" class="what">Wildbox и MPStats<span class="lvl">Конкурентная аналитика по категориям и новинкам</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="b10"><label for="b10" class="what">Платрум: база знаний отдела продаж<span class="lvl"><a href="https://birkaart.platrum.ru/wiki/space/otdel-prodazh-2-0" target="_blank" rel="noopener">Регламенты ОП 2.0</a> — читает в первую неделю, к дню 30 приносит, что устарело</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="b9"><label for="b9" class="what">Таблица адаптации<span class="lvl">Её он заполняет сам с первого дня: задачи, план/факт, блокеры</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="c3"><label for="c3" class="what">Карточки, контент, отзывы и вопросы на WB и Ozon<span class="lvl">Право менять, а не только смотреть</span></label><span class="who">Слава / Ольга</span></li>
+      <li><input type="checkbox" id="c6"><label for="c6" class="what">Битрикс: постановка и закрытие задач в ОП<span class="lvl">Становится точкой входа задач в отдел вместо тебя</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="c7"><label for="c7" class="what">Чаты со смежниками<span class="lvl">Склад, закупка, продакт, маркетинг, логист</span></label><span class="who">ты</span></li>
+    </ul>
+  </article>
+
+  <article class="stage" data-stage>
+    <header><h3>После 30 дней — управляющие права</h3><span class="when">дни 30+</span><span class="prog"></span></header>
+    <ul class="rows">
+      <li><input type="checkbox" id="d1"><label for="d1" class="what">Изменение цен в согласованном коридоре<span class="lvl">Коридор задаёшь ты в ₽ или % от цены до СПП; выход за него — только с тобой</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="d2"><label for="d2" class="what">Заявки на акции WB и Ozon<span class="lvl">Подаёт сам, список на согласовании у тебя до конца ИС</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="d3"><label for="d3" class="what">Рекламные кабинеты МП: просмотр расхода и ДРР<span class="lvl">Видит ДРР против норматива; управление бюджетом — после 60 дней</span></label><span class="who">ты / Саша</span></li>
+      <li><input type="checkbox" id="d4"><label for="d4" class="what">Трекер ИУ по Wildberries<span class="lvl">Нарастающий факт против цели периода — его главный счётчик</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="d5"><label for="d5" class="what">Утверждение потребности на отгрузку FBS<span class="lvl">Менеджеры собирают → он проверяет → Никита на склад</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="d7"><label for="d7" class="what">Power BI: рабочая область и выгрузка данных<span class="lvl">Может строить свои срезы, а не только смотреть чужие отчёты</span></label><span class="who">ты / Рома</span></li>
+      <li><input type="checkbox" id="d6"><label for="d6" class="what">Маржа в ₽ по артикулам и уровни маржи<span class="lvl">Видит маржу, но без себестоимости построчно</span></label><span class="who">ты</span></li>
+    </ul>
+  </article>
+
+  <div class="stoplist">
+    <h3>Не выдавать до конца испытательного срока</h3>
+    <p style="margin:0; color:var(--ink-2); font-size:13.5px">Это не про недоверие, а про то, что любой из пунктов ниже при ошибке или уходе человека стоит денег или переговорной позиции.</p>
+    <ul>
+      <li><b>Себестоимость построчно и мастер-справочник с ИП.</b> Маржу видит, из чего она собрана — после ИС.</li>
+      <li><b>Контакты фабрик и переписка по Китаю.</b> Зона закупки, не ОП, вообще.</li>
+      <li><b>Условия ИУ с площадкой в деталях.</b> Цель и факт — да, текст соглашения и рычаги — нет.</li>
+      <li><b>Права владельца в кабинетах МП.</b> Никаких админ-ролей, добавления пользователей, смены реквизитов.</li>
+      <li><b>Массовые операции:</b> удаление карточек, выгрузка всей базы артикулов, массовая смена цен одним файлом.</li>
+      <li><b>Банк, 1С-бухгалтерия, зарплаты и мотивация команды.</b> Предложения по мотивации — да, доступ к цифрам — нет.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="plan">
+  <div class="sechead"><h2>План 30 / 60 / 90</h2><span class="count" data-count-for="plan"></span></div>
+  <p class="secnote">Сведено с его дорожной картой: оставлено то, что можно засчитать или не засчитать цифрой. Формулировок вида «понимаю мотивацию» здесь нет намеренно — по ним нельзя принять решение по испытательному сроку.</p>
+  <div class="grid3">
+
+    <article class="phase" data-stage>
+      <header>
+        <div class="num">этап 1 · дни 1–30</div>
+        <h3>Принять цифру</h3>
+        <p class="aim">Диагностика с результатом в заказах, а не в описании процессов.</p>
+      </header>
+      <ul class="rows">
+        <li><input type="checkbox" id="p1"><label for="p1" class="what">Доступы закрыты, видит все цифры по трём площадкам<span class="lvl">день 5</span></label></li>
+        <li><input type="checkbox" id="p2"><label for="p2" class="what">1:1 с каждым менеджером МП и логистом<span class="lvl">день 7</span></label></li>
+        <li><input type="checkbox" id="p3"><label for="p3" class="what">Сверка факта с планом до 27.12: отклонения и причины<span class="lvl">день 10</span></label></li>
+        <li><input type="checkbox" id="p4"><label for="p4" class="what">Диагностическая записка: 5 точек потерь с оценкой в шт<span class="lvl">день 14</span></label></li>
+        <li><input type="checkbox" id="p5"><label for="p5" class="what">Витрина FBS: расхождение посчитано, план закрытия дан<span class="lvl">день 21 · первая быстрая победа</span></label></li>
+        <li><input type="checkbox" id="p6"><label for="p6" class="what">3 приоритета и границы решений согласованы с тобой<span class="lvl">день 21</span></label></li>
+      </ul>
+      <div class="outcome"><b>Засчитано, если</b>Названы 5 точек потерь с цифрой в заказах и запущена хотя бы одна быстрая победа.</div>
+    </article>
+
+    <article class="phase" data-stage>
+      <header>
+        <div class="num">этап 2 · дни 31–60</div>
+        <h3>Управлять ежедневно</h3>
+        <p class="aim">Ты перестаёшь быть диспетчером отдела.</p>
+      </header>
+      <ul class="rows">
+        <li><input type="checkbox" id="p7"><label for="p7" class="what">Ежедневный контроль заказов в шт против плана</label></li>
+        <li><input type="checkbox" id="p8"><label for="p8" class="what">Блок ОП в дашборде метрик заполняет отдел, не аналитик</label></li>
+        <li><input type="checkbox" id="p9"><label for="p9" class="what">Витрина FBS закрыта: весь остаток выставлен на WB и Ozon</label></li>
+        <li><input type="checkbox" id="p10"><label for="p10" class="what">Неликвид: по каждой позиции дата старта и цель 60 дней</label></li>
+        <li><input type="checkbox" id="p11"><label for="p11" class="what">Цены и акции по топ-20 ведёт в коридоре сам</label></li>
+        <li><input type="checkbox" id="p12"><label for="p12" class="what">Первая оценка команды: кто тянет, кто нет</label></li>
+      </ul>
+      <div class="outcome"><b>Засчитано, если</b>Неделя прошла без твоего участия в операционке: метрики заполнены, отгрузки идут, сверка сделана им.</div>
+    </article>
+
+    <article class="phase" data-stage>
+      <header>
+        <div class="num">этап 3 · дни 61–90</div>
+        <h3>Отвечать за прогноз</h3>
+        <p class="aim">С него спрашивают цифру, а не отчёт о работе.</p>
+      </header>
+      <ul class="rows">
+        <li><input type="checkbox" id="p13"><label for="p13" class="what">Держит дневной план заказов в шт по всем каналам</label></li>
+        <li><input type="checkbox" id="p14"><label for="p14" class="what">ИУ: факт нарастающим и план закрытия до 27.12</label></li>
+        <li><input type="checkbox" id="p15"><label for="p15" class="what">Прогноз продаж на 1–3 месяца с заявленной точностью</label></li>
+        <li><input type="checkbox" id="p16"><label for="p16" class="what">План развития отдела на квартал защищён</label></li>
+        <li><input type="checkbox" id="p17"><label for="p17" class="what">Мотивация менеджеров: предложение с расчётом</label></li>
+        <li><input type="checkbox" id="p18"><label for="p18" class="what">Решение по испытательному сроку принято и проговорено</label></li>
+      </ul>
+      <div class="outcome"><b>Засчитано, если</b>Прогноз на месяц вперёд разошёлся с фактом в пределах, которые он сам назвал заранее.</div>
+    </article>
+  </div>
+</section>
+
+<section id="metrics">
+  <div class="sechead"><h2>По чему его меряешь</h2></div>
+  <p class="secnote">Метрики, которые он ведёт сам и приносит на еженедельную сверку. С какого этапа он за них отвечает — в последней колонке.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Метрика</th><th>Как считаем</th><th>Ориентир</th><th>Спрашиваем с</th></tr></thead>
+      <tbody>
+        <tr><td>Заказы в штуках</td><td>Факт за день против дневного плана по артикулам</td><td class="num">план дня</td><td class="num">день 31</td></tr>
+        <tr><td>Выполнение ИУ</td><td>Продажи WB нарастающим против цели периода</td><td class="num">цель / дней</td><td class="num">день 61</td></tr>
+        <tr><td>% выкупа</td><td>Продажи ÷ заказы, отдельно по проблемным категориям</td><td class="num">по категории</td><td class="num">день 31</td></tr>
+        <tr><td>Покрытие остатком</td><td>Остаток ÷ средние заказы за 30 дней</td><td class="num">70 дней</td><td class="num">день 31</td></tr>
+        <tr><td>Доля артикулов ниже нормы покрытия</td><td>Сколько позиций уходят в ноль раньше срока</td><td class="num">снижается</td><td class="num">день 31</td></tr>
+        <tr><td>Витрина FBS</td><td>Доля своего остатка, выставленного на площадках</td><td class="num">≈100%</td><td class="num">день 31</td></tr>
+        <tr><td>Маржа в ₽</td><td>От цены до СПП, после расходов площадки</td><td class="num">план месяца</td><td class="num">день 61</td></tr>
+        <tr><td>ДРР</td><td>Расход на рекламу ÷ продажи от цены до СПП</td><td class="num">8%</td><td class="num">день 61</td></tr>
+        <tr><td>Неликвид</td><td>Остаток позиций в распродаже и срок с её старта</td><td class="num">60 дней</td><td class="num">день 61</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="fact">
+  <div class="sechead"><h2>Факт по метрикам</h2></div>
+  <p class="secnote">Строки приходят из листа «Метрики_факт» этой же таблицы — их вносит аналитик или ты. Дашборд только показывает: правим в таблице, страница подтягивает по кнопке «Обновить».</p>
+  <div class="factbar">
+    <div class="field"><label for="f-name">Метрика</label><input id="f-name" list="metric-names" placeholder="Заказы в штуках"></div>
+    <datalist id="metric-names">
+      <option value="Заказы в штуках"></option><option value="Выполнение ИУ"></option>
+      <option value="% выкупа"></option><option value="Покрытие остатком"></option>
+      <option value="Витрина FBS"></option><option value="Маржа в ₽"></option>
+      <option value="ДРР"></option><option value="Неликвид"></option>
+    </datalist>
+    <div class="field"><label for="f-plan">План</label><input id="f-plan" inputmode="decimal" style="min-width:90px"></div>
+    <div class="field"><label for="f-fact">Факт</label><input id="f-fact" inputmode="decimal" style="min-width:90px"></div>
+    <div class="field"><label for="f-comment">Комментарий</label><input id="f-comment" placeholder="необязательно"></div>
+    <div class="field"><label>&nbsp;</label><button class="btn primary" id="f-add">Записать в таблицу</button></div>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Дата</th><th>Метрика</th><th>План</th><th>Факт</th><th>Откл.</th><th>Комментарий</th><th>Кто внёс</th></tr></thead>
+      <tbody id="fact-rows"><tr><td colspan="7" class="empty">Подключи таблицу — и факт появится здесь</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="checkpoints">
+  <div class="sechead"><h2>Контрольные точки с тобой</h2><span class="count" data-count-for="checkpoints"></span></div>
+  <p class="secnote">Шесть точек он предложил сам в своей дорожной карте — это забираем как есть. Добавлена только последняя колонка: чем подтверждается, что точка пройдена.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th style="width:34px"></th><th>Когда</th><th>Что показывает</th><th>Формат</th><th>Чем подтверждается</th></tr></thead>
+      <tbody>
+        <tr><td><input type="checkbox" id="k1"></td><td class="num">день 5–7</td><td>Итоги диагностики, 3–5 приоритетов, отклонения от плана</td><td class="num">30 мин</td><td>Список отклонений с причинами</td></tr>
+        <tr><td><input type="checkbox" id="k2"></td><td class="num">день 14</td><td>Первые быстрые победы и риски, требующие твоего решения</td><td class="num">30 мин</td><td>Диагностическая записка с цифрами</td></tr>
+        <tr><td><input type="checkbox" id="k3"></td><td class="num">день 30</td><td>Аудит завершён, ритм встреч внедрён, план на второй месяц</td><td class="num">45–60 мин</td><td>Запущена хотя бы одна быстрая победа</td></tr>
+        <tr><td><input type="checkbox" id="k4"></td><td class="num">день 45</td><td>KPI актуализированы, первые кадровые выводы</td><td class="num">30 мин</td><td>Метрики ОП заполняет отдел</td></tr>
+        <tr><td><input type="checkbox" id="k5"></td><td class="num">день 60</td><td>Прогноз на 1–3 месяца, процессы описаны</td><td class="num">45 мин</td><td>Прогноз с заявленной точностью</td></tr>
+        <tr><td><input type="checkbox" id="k6"></td><td class="num">день 90</td><td>Итоги адаптации, где мы по плану, цели на квартал</td><td class="num">60 мин</td><td>Решение по испытательному сроку</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="two">
+    <article class="panel">
+      <h3>Что вернуть ему в дорожной карте</h3>
+      <ul class="flags">
+        <li><b>Цель «план по МД и рентабельности не ниже 95%»</b> — переформулировать в ваших метриках: заказы в шт против дневного плана и ИУ нарастающим. Цифры впишет сам после первой недели.</li>
+        <li><b>«Принять управление ОП до 31.10»</b> — это шесть недель, а ИУ закрывается 27.12. Срок сдвинуть на день 30.</li>
+        <li><b>Ассортимент и неликвид стоят на 12-й неделе</b> — при цели распродать за 60 дней это старт в конце декабря. Перенести в первый месяц.</li>
+        <li><b>Грейды, резерв и наставничество во втором месяце</b> — вынести за 90 дней, они вытеснят деньги в декабре.</li>
+      </ul>
+      <p style="margin:12px 0 0; font-size:13.5px; color:var(--muted)">Вопрос на первой встрече: как он будет считать заказы в штуках против плана с первой недели и откуда возьмёт данные. Ответ покажет, управляет он цифрой или описывает процессы.</p>
+      <a class="cta" href="https://docs.google.com/document/d/12P3v00u8Z1EcKGh_hEtpdHplHar6GkB034Q469tUA7o/edit" target="_blank" rel="noopener">Его дорожная карта <span class="arw">&rarr;</span></a>
+    </article>
+    <article class="panel">
+      <h3>Красные флаги</h3>
+      <ul class="flags">
+        <li>К 14-му дню не назвал ни одной точки потерь в цифрах.</li>
+        <li>Метрики ОП по-прежнему заполняешь ты или аналитик.</li>
+        <li>Делает работу менеджера вместо того, чтобы ставить ему задачу.</li>
+        <li>Про план отвечает диапазоном и настроением, а не цифрой на сегодня.</li>
+        <li>Приносит описанные процессы там, где ждали выросшие заказы.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<footer class="foot">
+  Пока адрес таблицы не вставлен в скрипт страницы, отметки хранятся только в браузере. После подключения они пишутся в таблицу: видно, кто и когда отметил.
+</footer>
+
+</div>
+
+<script>
+(function(){
+  // ─────────────────────────────────────────────────────────────
+  // ВСТАВЬ СЮДА адрес веб-приложения Apps Script (см. README).
+  // Пока строка пустая, страница работает автономно: отметки
+  // сохраняются только в этом браузере.
+  var API_URL = "https://script.google.com/macros/s/AKfycbyHYGAmf2xjYvaxvN0LPTymdwMrsea4HAeVYh6EBVUN_4LW5alQZWbqqh7VElaV_LyIlg/exec";
+  // ─────────────────────────────────────────────────────────────
+
+  var KURL  = "birka-rop-api-url";
+  var KEY   = "birka-rop-onboarding-v1";
+  var KWHO  = "birka-rop-who";
+  var KPIN  = "birka-rop-pin";
+
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('input[type=checkbox]'));
+  var state = {};
+  var metrics = [];
+  var pending = {};
+  var timer = null;
+
+  // адрес можно не править в коде: кнопка «Подключить таблицу» сохранит его в браузере
+  try { API_URL = API_URL || localStorage.getItem(KURL) || ""; } catch(e) {}
+
+  var dot  = document.getElementById('sync-dot');
+  var text = document.getElementById('sync-text');
+  var whoInput = document.getElementById('who');
+
+  function ls(fn, dflt){ try { return fn(); } catch(e){ return dflt; } }
+  function saveLocal(){ ls(function(){ localStorage.setItem(KEY, JSON.stringify(state)); }); }
+  function who(){ return (whoInput.value || '').trim() || 'без имени'; }
+  function pin(){ return ls(function(){ return localStorage.getItem(KPIN) || ''; }, '') ; }
+
+  function status(kind, msg){
+    dot.className = 'dot' + (kind ? ' ' + kind : '');
+    text.textContent = msg;
+  }
+
+  // ── метаданные чекбокса: подпись и раздел ────────────────────
+  function meta(box){
+    var lbl = document.querySelector('label[for="' + box.id + '"]');
+    var label = '';
+    if (lbl) {
+      var clone = lbl.cloneNode(true);
+      var lvl = clone.querySelector('.lvl');
+      if (lvl) lvl.remove();
+      label = clone.textContent.trim();
+    }
+    var sec = box.closest('section');
+    var stage = box.closest('[data-stage]');
+    var head = stage ? stage.querySelector('h3') : null;
+    var secName = sec ? (sec.querySelector('h2') ? sec.querySelector('h2').textContent.trim() : sec.id) : '';
+    return { label: label, section: secName + (head ? ' · ' + head.textContent.trim() : '') };
+  }
+
+  function paintRow(box){
+    var li = box.closest('li');
+    if (li) li.classList.toggle('done', box.checked);
+  }
+
+  function stamp(box, info){
+    var lbl = document.querySelector('label[for="' + box.id + '"]');
+    if (!lbl) return;
+    var old = lbl.querySelector('.who-mark');
+    if (old) old.remove();
+    if (info && info.on && info.who){
+      var span = document.createElement('span');
+      span.className = 'who-mark';
+      span.textContent = info.who + ' · ' + (info.when || '');
+      lbl.appendChild(span);
+    }
+  }
+
+  function refresh(){
+    document.querySelectorAll('[data-stage]').forEach(function(st){
+      var all = st.querySelectorAll('input[type=checkbox]');
+      var done = st.querySelectorAll('input[type=checkbox]:checked').length;
+      var p = st.querySelector('.prog');
+      if (p) p.textContent = done + " / " + all.length;
+    });
+    document.querySelectorAll('[data-count-for]').forEach(function(el){
+      var sec = document.getElementById(el.getAttribute('data-count-for'));
+      if (!sec) return;
+      var all = sec.querySelectorAll('input[type=checkbox]').length;
+      var done = sec.querySelectorAll('input[type=checkbox]:checked').length;
+      el.textContent = done + " из " + all + " отмечено";
+    });
+    var total = boxes.length;
+    var doneAll = boxes.filter(function(b){ return b.checked; }).length;
+    document.getElementById('total-done').textContent = doneAll;
+    document.getElementById('total-all').textContent = total;
+    document.getElementById('total-bar').style.width = (total ? Math.round(doneAll / total * 100) : 0) + "%";
+  }
+
+  // ── обмен с таблицей ─────────────────────────────────────────
+  function post(payload){
+    return fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).then(function(r){ return r.json(); });
+  }
+
+  function flush(){
+    if (!API_URL) { saveLocal(); return; }
+    var changes = Object.keys(pending).map(function(k){ return pending[k]; });
+    if (!changes.length) return;
+    pending = {};
+    status('warn', 'сохраняю…');
+    post({ action:'save', pin: pin(), user: who(), changes: changes })
+      .then(function(res){
+        if (!res || !res.ok) throw new Error(res && res.error || 'ошибка записи');
+        apply(res);
+        status('ok', 'сохранено в таблицу · ' + time());
+      })
+      .catch(function(err){
+        saveLocal();
+        if (String(err.message || err).indexOf('код доступа') > -1){
+          var val = prompt('Код доступа к таблице (задаётся в свойствах скрипта):');
+          if (val){ ls(function(){ localStorage.setItem(KPIN, val); }); changes.forEach(function(c){ pending[c.key] = c; }); schedule(); return; }
+        }
+        status('err', 'таблица недоступна, отметки сохранены локально');
+      });
+  }
+
+  function schedule(){
+    clearTimeout(timer);
+    timer = setTimeout(flush, 900);
+  }
+
+  function pull(){
+    if (!API_URL){ status('', 'таблица не подключена — отметки живут в этом браузере'); return; }
+    status('warn', 'читаю таблицу…');
+    fetch(API_URL + (API_URL.indexOf('?') > -1 ? '&' : '?') + 't=' + Date.now())
+      .then(function(r){ return r.json(); })
+      .then(function(res){
+        if (!res || !res.ok) throw new Error(res && res.error || 'ошибка чтения');
+        apply(res);
+        status('ok', 'из таблицы · ' + time());
+      })
+      .catch(function(){ status('err', 'таблица недоступна — показываю локальные отметки'); });
+  }
+
+  function apply(res){
+    var srv = res.state || {};
+    boxes.forEach(function(b){
+      if (srv.hasOwnProperty(b.id)){
+        b.checked = !!srv[b.id].on;
+        state[b.id] = b.checked;
+        if (!b.checked) delete state[b.id];
+        paintRow(b);
+        stamp(b, srv[b.id]);
+      }
+    });
+    metrics = res.metrics || [];
+    renderMetrics();
+    saveLocal();
+    refresh();
+  }
+
+  function time(){
+    var d = new Date();
+    return ('0'+d.getHours()).slice(-2) + ':' + ('0'+d.getMinutes()).slice(-2);
+  }
+
+  // ── факт по метрикам ─────────────────────────────────────────
+  function num(v){
+    if (v === '' || v == null) return null;
+    var n = parseFloat(String(v).replace(/\s/g,'').replace(',', '.').replace(/[^0-9.\-]/g,''));
+    return isNaN(n) ? null : n;
+  }
+
+  function renderMetrics(){
+    var tb = document.getElementById('fact-rows');
+    tb.innerHTML = '';
+    if (!metrics.length){
+      tb.innerHTML = '<tr><td colspan="7" class="empty">' +
+        (API_URL ? 'В листе «Метрики_факт» пока пусто' : 'Подключи таблицу — и факт появится здесь') +
+        '</td></tr>';
+      return;
+    }
+    metrics.slice().reverse().forEach(function(m){
+      var p = num(m.plan), f = num(m.fact);
+      var d = '', cls = '';
+      if (p !== null && f !== null && p !== 0){
+        var pct = Math.round((f / p - 1) * 100);
+        d = (pct > 0 ? '+' : '') + pct + '%';
+        cls = pct >= 0 ? 'up' : 'down';
+      }
+      var tr = document.createElement('tr');
+      [['num', m.date], ['', m.name], ['num', m.plan], ['num', m.fact]].forEach(function(c){
+        var td = document.createElement('td');
+        if (c[0]) td.className = c[0];
+        td.textContent = c[1] == null ? '' : String(c[1]);
+        tr.appendChild(td);
+      });
+      var tdd = document.createElement('td');
+      tdd.className = 'num';
+      tdd.innerHTML = d ? '<span class="delta ' + cls + '">' + d + '</span>' : '';
+      tr.appendChild(tdd);
+      [m.comment, m.who].forEach(function(v){
+        var td = document.createElement('td');
+        td.textContent = v || '';
+        tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+  }
+
+  document.getElementById('f-add').addEventListener('click', function(){
+    var name = document.getElementById('f-name').value.trim();
+    if (!name){ document.getElementById('f-name').focus(); return; }
+    if (!API_URL){ alert('Сначала подключи таблицу: вставь адрес веб-приложения в начало скрипта на этой странице.'); return; }
+    var m = {
+      name: name,
+      plan: document.getElementById('f-plan').value.trim(),
+      fact: document.getElementById('f-fact').value.trim(),
+      comment: document.getElementById('f-comment').value.trim()
+    };
+    status('warn', 'записываю…');
+    post({ action:'metric', pin: pin(), user: who(), metric: m })
+      .then(function(res){
+        if (!res || !res.ok) throw new Error(res && res.error || 'ошибка записи');
+        apply(res);
+        ['f-plan','f-fact','f-comment'].forEach(function(id){ document.getElementById(id).value = ''; });
+        status('ok', 'записано в таблицу · ' + time());
+      })
+      .catch(function(){ status('err', 'не удалось записать — проверь доступ к таблице'); });
+  });
+
+  // ── выгрузка в Excel ─────────────────────────────────────────
+  document.getElementById('xlsx').addEventListener('click', function(){
+    if (typeof XLSX === 'undefined'){ alert('Библиотека выгрузки не загрузилась — проверь интернет.'); return; }
+    var rows = [['Раздел', 'Пункт', 'Отмечено', 'Кто', 'Когда']];
+    boxes.forEach(function(b){
+      var m = meta(b);
+      var lbl = document.querySelector('label[for="' + b.id + '"] .who-mark');
+      var mark = lbl ? lbl.textContent.split(' · ') : ['', ''];
+      rows.push([m.section, m.label, b.checked ? 'да' : '', b.checked ? (mark[0] || who()) : '', mark[1] || '']);
+    });
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Адаптация');
+
+    var mrows = [['Дата', 'Метрика', 'План', 'Факт', 'Комментарий', 'Кто внёс']];
+    metrics.forEach(function(m){ mrows.push([m.date, m.name, m.plan, m.fact, m.comment, m.who]); });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(mrows), 'Метрики');
+
+    var d = new Date();
+    var name = 'adaptaciya-ropa-' + d.getFullYear() + ('0'+(d.getMonth()+1)).slice(-2) + ('0'+d.getDate()).slice(-2) + '.xlsx';
+    XLSX.writeFile(wb, name);
+  });
+
+  document.getElementById('pull').addEventListener('click', pull);
+
+  document.getElementById('link').addEventListener('click', function(){
+    var cur = API_URL || '';
+    var val = prompt('Адрес веб-приложения Apps Script (заканчивается на /exec):', cur);
+    if (val === null) return;
+    val = val.trim();
+    if (val && val.indexOf('/exec') === -1){
+      alert('Похоже, это не тот адрес: нужный заканчивается на /exec.');
+      return;
+    }
+    API_URL = val;
+    try { val ? localStorage.setItem(KURL, val) : localStorage.removeItem(KURL); } catch(e) {}
+    if (API_URL) pull();
+    else status('', 'таблица отключена — отметки живут в этом браузере');
+  });
+
+  document.getElementById('reset').addEventListener('click', function(){
+    if (!confirm('Снять все отметки? В таблице они тоже обнулятся.')) return;
+    boxes.forEach(function(b){
+      if (b.checked){
+        b.checked = false;
+        paintRow(b);
+        stamp(b, null);
+        var m = meta(b);
+        pending[b.id] = { key: b.id, label: m.label, section: m.section, value: false };
+      }
+    });
+    state = {};
+    saveLocal();
+    refresh();
+    schedule();
+  });
+
+  // ── старт ────────────────────────────────────────────────────
+  state = ls(function(){ return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; }, {});
+  whoInput.value = ls(function(){ return localStorage.getItem(KWHO) || ''; }, '');
+  whoInput.addEventListener('change', function(){ ls(function(){ localStorage.setItem(KWHO, whoInput.value.trim()); }); });
+
+  boxes.forEach(function(b){
+    if (state[b.id]) b.checked = true;
+    paintRow(b);
+    b.addEventListener('change', function(){
+      state[b.id] = b.checked;
+      if (!b.checked) delete state[b.id];
+      paintRow(b);
+      if (!b.checked) stamp(b, null);
+      saveLocal();
+      refresh();
+      var m = meta(b);
+      pending[b.id] = { key: b.id, label: m.label, section: m.section, value: b.checked };
+      schedule();
+    });
+  });
+
+  refresh();
+  renderMetrics();
+  if (API_URL) pull(); else status('', 'таблица не подключена — отметки живут в этом браузере');
+})();
+</script>
+
+</body>
+</html>
