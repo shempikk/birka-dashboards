@@ -154,6 +154,24 @@
     background:none; border:0; padding:0; cursor:pointer; text-decoration:underline dotted;
   }
   .note-add:hover{color:var(--ink-2)}
+  .acts{display:inline-flex; gap:10px; margin-left:10px}
+  .acts button{
+    font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--muted);
+    background:none; border:0; padding:0; cursor:pointer; text-decoration:underline dotted;
+  }
+  .acts button:hover{color:var(--ink-2)}
+  .acts .del:hover{color:var(--stop)}
+  ul.rows > li.sub{background:var(--surface-2)}
+  ul.rows > li.sub .what{font-weight:500; font-size:14px; padding-left:16px; position:relative}
+  ul.rows > li.sub .what::before{
+    content:""; position:absolute; left:2px; top:9px; width:7px; height:1px; background:var(--muted);
+  }
+  ul.rows > li.addrow{padding:9px 16px}
+  .addbtn{
+    font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--accent);
+    background:none; border:0; padding:0; cursor:pointer;
+  }
+  .addbtn:hover{text-decoration:underline}
   .note-input{
     width:100%; max-width:420px; font:inherit; font-size:13px; font-weight:400;
     background:var(--surface); color:var(--ink); border:1px solid var(--accent);
@@ -212,8 +230,8 @@
     <div>
       <div class="eyebrow">Birka Art · отдел продаж</div>
       <h1>Ввод РОПа в должность</h1>
-      <p class="lede">Что открыть и когда, чтобы человек мог работать — и что придержать до конца испытательного срока. Отметки уходят в связанную Google-таблицу и видны всем, у кого есть ссылка.</p>
-      <a class="cta" href="https://docs.google.com/spreadsheets/d/1OAWx2qa9HxQR72kf6JbuFhODyWNgf23H886W-P-UMzI/edit?gid=1230170400#gid=1230170400" target="_blank" rel="noopener">Таблица адаптации — её ведёт он <span class="arw">&rarr;</span></a>
+      <p class="lede">Доступы, задачи и контрольные точки ввода руководителя отдела продаж в должность. Отметки уходят в связанную Google-таблицу.</p>
+      <a class="cta" href="https://docs.google.com/spreadsheets/d/1OAWx2qa9HxQR72kf6JbuFhODyWNgf23H886W-P-UMzI/edit?gid=1230170400#gid=1230170400" target="_blank" rel="noopener">Таблица адаптации РОПа <span class="arw">&rarr;</span></a>
     </div>
     <div class="total">
       <div class="eyebrow">Готовность</div>
@@ -235,51 +253,51 @@
 
 <section id="access">
   <div class="sechead"><h2>Доступы по ступеням</h2><span class="count" data-count-for="access"></span></div>
-  <p class="secnote">Задача первой недели — закрыть доступы целиком, чтобы он не ходил ни к кому за скриншотами. Отложены только те права, где ошибка стоит денег сразу: цены вне коридора, рекламные бюджеты, финансы.</p>
+  <p class="secnote">Первая неделя — доступы закрываются целиком, чтобы работа не шла через чужие скриншоты. Отложены только права, где ошибка стоит денег сразу: цены вне коридора, рекламные бюджеты, финансы.</p>
   
 
-  <article class="stage" data-stage>
+  <article class="stage" data-stage data-group="acc-pre">
     <header><h3>До выхода</h3><span class="when">день −1</span><span class="prog"></span></header>
     <ul class="rows">
-      <li><input type="checkbox" id="a1"><label for="a1" class="what">Корпоративная почта и Google-аккаунт<span class="lvl">Без него не выдать ничего остального</span></label><span class="who">ты / IT</span></li>
-      <li><input type="checkbox" id="a2"><label for="a2" class="what">Битрикс24: профиль, отдел продаж, его группа задач<span class="lvl">Сразу постановщик задач для менеджеров МП</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="a3"><label for="a3" class="what">Телеграм: общий рабочий чат и чат ОП<span class="lvl">Читает, пока не поймёт контекст переписки</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="a4"><label for="a4" class="what">Папка «Онбординг РОП» на Google Диске<span class="lvl">Оргструктура, регламенты, реестр таблиц, ссылка на этот дашборд</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="a5"><label for="a5" class="what">Календарь: планёрки ОП, еженедельная сверка, 1:1 с тобой<span class="lvl">Ритм ставим до выхода, а не «как пойдёт»</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="a1"><label for="a1" class="what">Корпоративная почта и Google-аккаунт<span class="lvl">Базовый доступ, остальные выдаются после него</span></label><span class="who">КомДир / IT</span></li>
+      <li><input type="checkbox" id="a2"><label for="a2" class="what">Битрикс24: профиль, отдел продаж, группа задач ОП<span class="lvl">Сразу постановщик задач для менеджеров МП</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="a3"><label for="a3" class="what">Телеграм: общий рабочий чат и чат ОП<span class="lvl">Доступ на чтение до погружения в контекст</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="a4"><label for="a4" class="what">Папка «Онбординг РОП» на Google Диске<span class="lvl">Оргструктура, регламенты, реестр таблиц, ссылка на этот дашборд</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="a5"><label for="a5" class="what">Календарь: планёрки ОП, еженедельная сверка, 1:1 с КомДиром<span class="lvl">Ритм фиксируется до выхода, а не «как пойдёт»</span></label><span class="who">КомДир</span></li>
     </ul>
   </article>
 
-  <article class="stage" data-stage>
+  <article class="stage" data-stage data-group="acc-week1">
     <header><h3>Первая неделя — рабочие доступы</h3><span class="when">дни 1–5</span><span class="prog"></span></header>
     <ul class="rows">
-      <li><input type="checkbox" id="b1"><label for="b1" class="what">Wildberries: кабинет продавца<span class="lvl">Отдельная учётка на его почту, не твой логин. Аналитика, заказы, остатки, карточки, отзывы</span></label><span class="who">Слава</span></li>
-      <li><input type="checkbox" id="b2"><label for="b2" class="what">Ozon Seller<span class="lvl">Отдельная учётка на его почту, тот же объём прав</span></label><span class="who">Ольга</span></li>
-      <li><input type="checkbox" id="b3"><label for="b3" class="what">Lamoda: партнёрский кабинет<span class="lvl">Планов нет, только общий ориентир по году</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="b7"><label for="b7" class="what">Power BI<span class="lvl">Своя учётная запись, все отчёты по продажам</span></label><span class="who">ты / Рома</span></li>
-      <li><input type="checkbox" id="c5"><label for="c5" class="what">1С: остатки и товар в пути<span class="lvl">Без финансовых регистров и взаиморасчётов</span></label><span class="who">ты / Наталия Валерьевна</span></li>
-      <li><input type="checkbox" id="b4"><label for="b4" class="what">Дашборд метрик Birka Art<span class="lvl">Блок «ОП и КомДир» — его зона, с правом редактировать</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="b5"><label for="b5" class="what">Таблица оборачиваемости и плана заказов<span class="lvl">Главный рабочий файл: план в шт, покрытие, аудит артикулов</span></label><span class="who">ты / Рома</span></li>
-      <li><input type="checkbox" id="b6"><label for="b6" class="what">Реестр всех таблиц компании<span class="lvl">Чтобы не заводил свои файлы параллельно</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="b8"><label for="b8" class="what">Дашборды план/факт<span class="lvl">Ссылки на страницы, где компания уже считает факт</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="c4"><label for="c4" class="what">Wildbox и MPStats<span class="lvl">Конкурентная аналитика по категориям и новинкам</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="b10"><label for="b10" class="what">Платрум: база знаний отдела продаж<span class="lvl"><a href="https://birkaart.platrum.ru/wiki/space/otdel-prodazh-2-0" target="_blank" rel="noopener">Регламенты ОП 2.0</a> — читает в первую неделю, к дню 30 приносит, что устарело</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="b9"><label for="b9" class="what">Таблица адаптации<span class="lvl">Её он заполняет сам с первого дня: задачи, план/факт, блокеры</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="b1"><label for="b1" class="what">Wildberries: кабинет продавца<span class="lvl">Отдельная учётная запись на корпоративную почту РОПа. Аналитика, заказы, остатки, карточки, отзывы</span></label><span class="who">Слава</span></li>
+      <li><input type="checkbox" id="b2"><label for="b2" class="what">Ozon Seller<span class="lvl">Отдельная учётная запись, тот же объём прав</span></label><span class="who">Ольга</span></li>
+      <li><input type="checkbox" id="b3"><label for="b3" class="what">Lamoda: партнёрский кабинет<span class="lvl">Планов нет, только общий ориентир по году</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="b7"><label for="b7" class="what">Power BI<span class="lvl">Своя учётная запись, все отчёты по продажам</span></label><span class="who">КомДир / Рома</span></li>
+      <li><input type="checkbox" id="c5"><label for="c5" class="what">1С: остатки и товар в пути<span class="lvl">Без финансовых регистров и взаиморасчётов</span></label><span class="who">КомДир / Наталия В.</span></li>
+      <li><input type="checkbox" id="b4"><label for="b4" class="what">Дашборд метрик Birka Art<span class="lvl">Блок «ОП и КомДир» — зона РОПа, с правом редактировать</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="b5"><label for="b5" class="what">Таблица оборачиваемости и плана заказов<span class="lvl">Главный рабочий файл: план в шт, покрытие, аудит артикулов</span></label><span class="who">КомДир / Рома</span></li>
+      <li><input type="checkbox" id="b6"><label for="b6" class="what">Реестр всех таблиц компании<span class="lvl">Чтобы работа шла в общих файлах, а не в личных</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="b8"><label for="b8" class="what">Дашборды план/факт<span class="lvl">Страницы, где компания уже считает факт</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="c4"><label for="c4" class="what">Wildbox и MPStats<span class="lvl">Конкурентная аналитика по категориям и новинкам</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="b10"><label for="b10" class="what">Платрум: база знаний отдела продаж<span class="lvl"><a href="https://birkaart.platrum.ru/wiki/space/otdel-prodazh-2-0" target="_blank" rel="noopener">Регламенты ОП 2.0</a> — изучаются в первую неделю, к дню 30 — список устаревшего</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="b9"><label for="b9" class="what">Таблица адаптации<span class="lvl">Заполняется РОПом с первого дня: задачи, план/факт, блокеры</span></label><span class="who">КомДир</span></li>
       <li><input type="checkbox" id="c3"><label for="c3" class="what">Карточки, контент, отзывы и вопросы на WB и Ozon<span class="lvl">Право менять, а не только смотреть</span></label><span class="who">Слава / Ольга</span></li>
-      <li><input type="checkbox" id="c6"><label for="c6" class="what">Битрикс: постановка и закрытие задач в ОП<span class="lvl">Становится точкой входа задач в отдел вместо тебя</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="c7"><label for="c7" class="what">Чаты со смежниками<span class="lvl">Склад, закупка, продакт, маркетинг, логист</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="c6"><label for="c6" class="what">Битрикс: постановка и закрытие задач в ОП<span class="lvl">Точка входа задач в отдел — РОП</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="c7"><label for="c7" class="what">Чаты со смежниками<span class="lvl">Склад, закупка, продакт, маркетинг, логист</span></label><span class="who">КомДир</span></li>
     </ul>
   </article>
 
-  <article class="stage" data-stage>
+  <article class="stage" data-stage data-group="acc-30">
     <header><h3>После 30 дней — управляющие права</h3><span class="when">дни 30+</span><span class="prog"></span></header>
     <ul class="rows">
-      <li><input type="checkbox" id="d1"><label for="d1" class="what">Изменение цен в согласованном коридоре<span class="lvl">Коридор задаёшь ты в ₽ или % от цены до СПП; выход за него — только с тобой</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="d2"><label for="d2" class="what">Заявки на акции WB и Ozon<span class="lvl">Подаёт сам, список на согласовании у тебя до конца ИС</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="d3"><label for="d3" class="what">Рекламные кабинеты МП: просмотр расхода и ДРР<span class="lvl">Видит ДРР против норматива; управление бюджетом — после 60 дней</span></label><span class="who">ты / Саша</span></li>
-      <li><input type="checkbox" id="d4"><label for="d4" class="what">Трекер ИУ по Wildberries<span class="lvl">Нарастающий факт против цели периода — его главный счётчик</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="d5"><label for="d5" class="what">Утверждение потребности на отгрузку FBS<span class="lvl">Менеджеры собирают → он проверяет → Никита на склад</span></label><span class="who">ты</span></li>
-      <li><input type="checkbox" id="d7"><label for="d7" class="what">Power BI: рабочая область и выгрузка данных<span class="lvl">Может строить свои срезы, а не только смотреть чужие отчёты</span></label><span class="who">ты / Рома</span></li>
-      <li><input type="checkbox" id="d6"><label for="d6" class="what">Маржа в ₽ по артикулам и уровни маржи<span class="lvl">Видит маржу, но без себестоимости построчно</span></label><span class="who">ты</span></li>
+      <li><input type="checkbox" id="d1"><label for="d1" class="what">Изменение цен в согласованном коридоре<span class="lvl">Коридор задаёт КомДир в ₽ или % от цены до СПП; выход за коридор — по согласованию</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="d2"><label for="d2" class="what">Заявки на акции WB и Ozon<span class="lvl">Подаются РОПом, список согласуется с КомДиром до конца ИС</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="d3"><label for="d3" class="what">Рекламные кабинеты МП: просмотр расхода и ДРР<span class="lvl">Просмотр ДРР против норматива; управление бюджетом — после 60 дней</span></label><span class="who">КомДир / Саша</span></li>
+      <li><input type="checkbox" id="d4"><label for="d4" class="what">Трекер ИУ по Wildberries<span class="lvl">Нарастающий факт против цели периода — главный счётчик результата</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="d5"><label for="d5" class="what">Утверждение потребности на отгрузку FBS<span class="lvl">Менеджеры собирают → РОП проверяет → логист передаёт на склад</span></label><span class="who">КомДир</span></li>
+      <li><input type="checkbox" id="d7"><label for="d7" class="what">Power BI: рабочая область и выгрузка данных<span class="lvl">Построение собственных срезов, а не только просмотр готовых отчётов</span></label><span class="who">КомДир / Рома</span></li>
+      <li><input type="checkbox" id="d6"><label for="d6" class="what">Маржа в ₽ по артикулам и уровни маржи<span class="lvl">Маржа доступна, себестоимость построчно — нет</span></label><span class="who">КомДир</span></li>
     </ul>
   </article>
 
@@ -288,48 +306,48 @@
 
 <section id="plan">
   <div class="sechead"><h2>План 30 / 60 / 90</h2><span class="count" data-count-for="plan"></span></div>
-  <p class="secnote">Сведено с его дорожной картой: оставлено то, что можно засчитать или не засчитать цифрой. Формулировок вида «понимаю мотивацию» здесь нет намеренно — по ним нельзя принять решение по испытательному сроку.</p>
+  <p class="secnote">Сведено с дорожной картой РОПа: оставлено то, что можно засчитать или не засчитать цифрой. Формулировок вида «понимаю мотивацию» здесь нет намеренно — по ним нельзя принять решение по испытательному сроку.</p>
   <div class="grid3">
 
-    <article class="phase" data-stage>
+    <article class="phase" data-stage data-group="ph-1">
       <header>
         <div class="num">этап 1 · дни 1–30</div>
         <h3>Принять цифру</h3>
         <p class="aim">Диагностика с результатом в заказах, а не в описании процессов.</p>
       </header>
       <ul class="rows">
-        <li><input type="checkbox" id="p1"><label for="p1" class="what">Доступы закрыты, видит все цифры по трём площадкам<span class="lvl">день 5</span></label></li>
+        <li><input type="checkbox" id="p1"><label for="p1" class="what">Доступы закрыты, все цифры по трём площадкам доступны<span class="lvl">день 5</span></label></li>
         <li><input type="checkbox" id="p2"><label for="p2" class="what">1:1 с каждым менеджером МП и логистом<span class="lvl">день 7</span></label></li>
         <li><input type="checkbox" id="p3"><label for="p3" class="what">Сверка факта с планом до 27.12: отклонения и причины<span class="lvl">день 10</span></label></li>
         <li><input type="checkbox" id="p4"><label for="p4" class="what">Диагностическая записка: 5 точек потерь с оценкой в шт<span class="lvl">день 14</span></label></li>
         <li><input type="checkbox" id="p5"><label for="p5" class="what">Витрина FBS: расхождение посчитано, план закрытия дан<span class="lvl">день 21 · первая быстрая победа</span></label></li>
-        <li><input type="checkbox" id="p6"><label for="p6" class="what">3 приоритета и границы решений согласованы с тобой<span class="lvl">день 21</span></label></li>
+        <li><input type="checkbox" id="p6"><label for="p6" class="what">3 приоритета и границы решений согласованы с КомДиром<span class="lvl">день 21</span></label></li>
       </ul>
       <div class="outcome"><b>Засчитано, если</b>Названы 5 точек потерь с цифрой в заказах и запущена хотя бы одна быстрая победа.</div>
     </article>
 
-    <article class="phase" data-stage>
+    <article class="phase" data-stage data-group="ph-2">
       <header>
         <div class="num">этап 2 · дни 31–60</div>
         <h3>Управлять ежедневно</h3>
-        <p class="aim">Ты перестаёшь быть диспетчером отдела.</p>
+        <p class="aim">Операционка отдела уходит из рук КомДира.</p>
       </header>
       <ul class="rows">
         <li><input type="checkbox" id="p7"><label for="p7" class="what">Ежедневный контроль заказов в шт против плана</label></li>
         <li><input type="checkbox" id="p8"><label for="p8" class="what">Блок ОП в дашборде метрик заполняет отдел, не аналитик</label></li>
         <li><input type="checkbox" id="p9"><label for="p9" class="what">Витрина FBS закрыта: весь остаток выставлен на WB и Ozon</label></li>
         <li><input type="checkbox" id="p10"><label for="p10" class="what">Неликвид: по каждой позиции дата старта и цель 60 дней</label></li>
-        <li><input type="checkbox" id="p11"><label for="p11" class="what">Цены и акции по топ-20 ведёт в коридоре сам</label></li>
+        <li><input type="checkbox" id="p11"><label for="p11" class="what">Цены и акции по топ-20 — самостоятельно, в коридоре</label></li>
         <li><input type="checkbox" id="p12"><label for="p12" class="what">Первая оценка команды: кто тянет, кто нет</label></li>
       </ul>
-      <div class="outcome"><b>Засчитано, если</b>Неделя прошла без твоего участия в операционке: метрики заполнены, отгрузки идут, сверка сделана им.</div>
+      <div class="outcome"><b>Засчитано, если</b>Неделя прошла без участия КомДира в операционке: метрики заполнены, отгрузки идут, сверка проведена.</div>
     </article>
 
-    <article class="phase" data-stage>
+    <article class="phase" data-stage data-group="ph-3">
       <header>
         <div class="num">этап 3 · дни 61–90</div>
         <h3>Отвечать за прогноз</h3>
-        <p class="aim">С него спрашивают цифру, а не отчёт о работе.</p>
+        <p class="aim">Спрос за цифру, а не за отчёт о проделанной работе.</p>
       </header>
       <ul class="rows">
         <li><input type="checkbox" id="p13"><label for="p13" class="what">Держит дневной план заказов в шт по всем каналам</label></li>
@@ -339,14 +357,14 @@
         <li><input type="checkbox" id="p17"><label for="p17" class="what">Мотивация менеджеров: предложение с расчётом</label></li>
         <li><input type="checkbox" id="p18"><label for="p18" class="what">Решение по испытательному сроку принято и проговорено</label></li>
       </ul>
-      <div class="outcome"><b>Засчитано, если</b>Прогноз на месяц вперёд разошёлся с фактом в пределах, которые он сам назвал заранее.</div>
+      <div class="outcome"><b>Засчитано, если</b>Прогноз на месяц вперёд разошёлся с фактом в пределах, заявленных заранее.</div>
     </article>
   </div>
 </section>
 
 <section id="metrics">
-  <div class="sechead"><h2>По чему его меряешь</h2></div>
-  <p class="secnote">Метрики, которые он ведёт сам и приносит на еженедельную сверку. С какого этапа он за них отвечает — в последней колонке.</p>
+  <div class="sechead"><h2>Метрики РОПа</h2></div>
+  <p class="secnote">Ведутся РОПом и выносятся на еженедельную сверку. С какого этапа наступает ответственность — в последней колонке.</p>
   <div class="tablewrap">
     <table>
       <thead><tr><th>Метрика</th><th>Как считаем</th><th>Ориентир</th><th>Спрашиваем с</th></tr></thead>
@@ -367,7 +385,7 @@
 
 <section id="fact">
   <div class="sechead"><h2>Факт по метрикам</h2></div>
-  <p class="secnote">Строки приходят из листа «Метрики_факт» этой же таблицы — их вносит аналитик или ты. Дашборд только показывает: правим в таблице, страница подтягивает по кнопке «Обновить».</p>
+  <p class="secnote">Строки приходят из листа «Метрики_факт» этой же таблицы — их вносит аналитик или КомДир. Дашборд только показывает: правки вносятся в таблице, страница подтягивает их по кнопке «Обновить».</p>
   <div class="factbar">
     <div class="field"><label for="f-name">Метрика</label><input id="f-name" list="metric-names" placeholder="Заказы в штуках"></div>
     <datalist id="metric-names">
@@ -384,20 +402,20 @@
   <div class="tablewrap">
     <table>
       <thead><tr><th>Дата</th><th>Метрика</th><th>План</th><th>Факт</th><th>Откл.</th><th>Комментарий</th><th>Кто внёс</th></tr></thead>
-      <tbody id="fact-rows"><tr><td colspan="7" class="empty">Подключи таблицу — и факт появится здесь</td></tr></tbody>
+      <tbody id="fact-rows"><tr><td colspan="7" class="empty">Таблица не подключена — факт появится после подключения</td></tr></tbody>
     </table>
   </div>
 </section>
 
 <section id="checkpoints">
-  <div class="sechead"><h2>Контрольные точки с тобой</h2><span class="count" data-count-for="checkpoints"></span></div>
-  <p class="secnote">Шесть точек он предложил сам в своей дорожной карте — это забираем как есть. Добавлена только последняя колонка: чем подтверждается, что точка пройдена.</p>
+  <div class="sechead"><h2>Контрольные точки с КомДиром</h2><span class="count" data-count-for="checkpoints"></span></div>
+  <p class="secnote">Шесть точек из дорожной карты РОПа — взяты как есть. Добавлена только последняя колонка: чем подтверждается, что точка пройдена.</p>
   <div class="tablewrap">
     <table>
       <thead><tr><th style="width:34px"></th><th>Когда</th><th>Что показывает</th><th>Формат</th><th>Чем подтверждается</th></tr></thead>
       <tbody>
         <tr><td><input type="checkbox" id="k1"></td><td class="num">день 5–7</td><td>Итоги диагностики, 3–5 приоритетов, отклонения от плана</td><td class="num">30 мин</td><td>Список отклонений с причинами</td></tr>
-        <tr><td><input type="checkbox" id="k2"></td><td class="num">день 14</td><td>Первые быстрые победы и риски, требующие твоего решения</td><td class="num">30 мин</td><td>Диагностическая записка с цифрами</td></tr>
+        <tr><td><input type="checkbox" id="k2"></td><td class="num">день 14</td><td>Первые быстрые победы и риски, требующие решения КомДира</td><td class="num">30 мин</td><td>Диагностическая записка с цифрами</td></tr>
         <tr><td><input type="checkbox" id="k3"></td><td class="num">день 30</td><td>Аудит завершён, ритм встреч внедрён, план на второй месяц</td><td class="num">45–60 мин</td><td>Запущена хотя бы одна быстрая победа</td></tr>
         <tr><td><input type="checkbox" id="k4"></td><td class="num">день 45</td><td>KPI актуализированы, первые кадровые выводы</td><td class="num">30 мин</td><td>Метрики ОП заполняет отдел</td></tr>
         <tr><td><input type="checkbox" id="k5"></td><td class="num">день 60</td><td>Прогноз на 1–3 месяца, процессы описаны</td><td class="num">45 мин</td><td>Прогноз с заявленной точностью</td></tr>
@@ -407,92 +425,72 @@
   </div>
 </section>
 
-<section id="roadmap">
-  <div class="two">
-    <article class="panel">
-      <h3>Что вернуть ему в дорожной карте</h3>
-      <ul class="flags">
-        <li><b>Цель «план по МД и рентабельности не ниже 95%»</b> — переформулировать в ваших метриках: заказы в шт против дневного плана и ИУ нарастающим. Цифры впишет сам после первой недели.</li>
-        <li><b>«Принять управление ОП до 31.10»</b> — это шесть недель, а ИУ закрывается 27.12. Срок сдвинуть на день 30.</li>
-        <li><b>Ассортимент и неликвид стоят на 12-й неделе</b> — при цели распродать за 60 дней это старт в конце декабря. Перенести в первый месяц.</li>
-        <li><b>Грейды, резерв и наставничество во втором месяце</b> — вынести за 90 дней, они вытеснят деньги в декабре.</li>
-      </ul>
-      <p style="margin:12px 0 0; font-size:13.5px; color:var(--muted)">Вопрос на первой встрече: как он будет считать заказы в штуках против плана с первой недели и откуда возьмёт данные. Ответ покажет, управляет он цифрой или описывает процессы.</p>
-      <a class="cta" href="https://docs.google.com/document/d/12P3v00u8Z1EcKGh_hEtpdHplHar6GkB034Q469tUA7o/edit" target="_blank" rel="noopener">Его дорожная карта <span class="arw">&rarr;</span></a>
-    </article>
-    <article class="panel">
-      <h3>Красные флаги</h3>
-      <ul class="flags">
-        <li>К 14-му дню не назвал ни одной точки потерь в цифрах.</li>
-        <li>Метрики ОП по-прежнему заполняешь ты или аналитик.</li>
-        <li>Делает работу менеджера вместо того, чтобы ставить ему задачу.</li>
-        <li>Про план отвечает диапазоном и настроением, а не цифрой на сегодня.</li>
-        <li>Приносит описанные процессы там, где ждали выросшие заказы.</li>
-      </ul>
-    </article>
-  </div>
-</section>
+
 
 <footer class="foot">
-  Пока адрес таблицы не вставлен в скрипт страницы, отметки хранятся только в браузере. После подключения они пишутся в таблицу: видно, кто и когда отметил.
+  Без подключённой таблицы отметки хранятся только в браузере. После подключения они пишутся в таблицу: видно, кто и когда отметил.
 </footer>
 
 </div>
 
 <script>
 (function(){
-  // ─────────────────────────────────────────────────────────────
-  // ВСТАВЬ СЮДА адрес веб-приложения Apps Script (см. README).
-  // Пока строка пустая, страница работает автономно: отметки
-  // сохраняются только в этом браузере.
   var API_URL = "https://script.google.com/macros/s/AKfycbyHYGAmf2xjYvaxvN0LPTymdwMrsea4HAeVYh6EBVUN_4LW5alQZWbqqh7VElaV_LyIlg/exec";
-  // ─────────────────────────────────────────────────────────────
 
-  var KURL  = "birka-rop-api-url";
-  var KNOTES = "birka-rop-notes";
-  var KEY   = "birka-rop-onboarding-v1";
-  var KWHO  = "birka-rop-who";
-  var KPIN  = "birka-rop-pin";
+  var KURL="birka-rop-api-url", KEY="birka-rop-onboarding-v1", KNOTES="birka-rop-notes",
+      KWHO="birka-rop-who", KPIN="birka-rop-pin", KCUSTOM="birka-rop-custom", KHIDDEN="birka-rop-hidden";
 
-  var boxes = Array.prototype.slice.call(document.querySelectorAll('input[type=checkbox]'));
-  var state = {};
+  function ls(fn, d){ try { return fn(); } catch(e){ return d; } }
+  function save(k, v){ ls(function(){ localStorage.setItem(k, JSON.stringify(v)); }); }
+  function load(k, d){ return ls(function(){ return JSON.parse(localStorage.getItem(k) || 'null') || d; }, d); }
+
+  API_URL = API_URL || ls(function(){ return localStorage.getItem(KURL) || ""; }, "");
+
+  var state  = load(KEY, {});
+  var notes  = load(KNOTES, {});
+  var custom = load(KCUSTOM, {});
+  var hidden = load(KHIDDEN, {});
   var metrics = [];
-  var notes = {};
-  var pending = {};
-  var timer = null;
-
-  // адрес можно не править в коде: кнопка «Подключить таблицу» сохранит его в браузере
-  try { API_URL = API_URL || localStorage.getItem(KURL) || ""; } catch(e) {}
+  var pending = {}, timer = null;
 
   var dot  = document.getElementById('sync-dot');
   var text = document.getElementById('sync-text');
   var whoInput = document.getElementById('who');
 
-  function ls(fn, dflt){ try { return fn(); } catch(e){ return dflt; } }
-  function saveLocal(){ ls(function(){ localStorage.setItem(KEY, JSON.stringify(state)); }); }
   function who(){ return (whoInput.value || '').trim() || 'без имени'; }
-  function pin(){ return ls(function(){ return localStorage.getItem(KPIN) || ''; }, '') ; }
+  function pin(){ return ls(function(){ return localStorage.getItem(KPIN) || ''; }, ''); }
+  function status(kind, msg){ dot.className = 'dot' + (kind ? ' ' + kind : ''); text.textContent = msg; }
+  function boxes(){ return Array.prototype.slice.call(document.querySelectorAll('input[type=checkbox]')); }
+  function newKey(){ return 'u' + Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
 
-  function status(kind, msg){
-    dot.className = 'dot' + (kind ? ' ' + kind : '');
-    text.textContent = msg;
-  }
-
-  // ── метаданные чекбокса: подпись и раздел ────────────────────
   function meta(box){
+    var li = box.closest('li');
     var lbl = document.querySelector('label[for="' + box.id + '"]');
     var label = '';
-    if (lbl) {
-      var clone = lbl.cloneNode(true);
-      var lvl = clone.querySelector('.lvl');
-      if (lvl) lvl.remove();
-      label = clone.textContent.trim();
+    if (lbl){
+      var c = lbl.cloneNode(true);
+      ['.lvl','.note','.acts','.who-mark'].forEach(function(sel){
+        var n = c.querySelector(sel); while (n){ n.remove(); n = c.querySelector(sel); }
+      });
+      label = c.textContent.trim();
     }
     var sec = box.closest('section');
-    var stage = box.closest('[data-stage]');
-    var head = stage ? stage.querySelector('h3') : null;
-    var secName = sec ? (sec.querySelector('h2') ? sec.querySelector('h2').textContent.trim() : sec.id) : '';
-    return { label: label, section: secName + (head ? ' · ' + head.textContent.trim() : '') };
+    var grp = box.closest('[data-group]');
+    var head = grp ? grp.querySelector('h3') : null;
+    return {
+      label: label,
+      section: (sec && sec.querySelector('h2') ? sec.querySelector('h2').textContent.trim() : '') + (head ? ' · ' + head.textContent.trim() : ''),
+      group: grp ? grp.getAttribute('data-group') : '',
+      parent: li ? (li.getAttribute('data-parent') || '') : ''
+    };
+  }
+
+  function queue(box, extra){
+    var m = meta(box);
+    var o = { key: box.id, label: m.label, section: m.section, group: m.group, parent: m.parent, value: box.checked };
+    for (var k in extra) o[k] = extra[k];
+    pending[box.id] = o;
+    schedule();
   }
 
   function paintRow(box){
@@ -500,7 +498,8 @@
     if (li) li.classList.toggle('done', box.checked);
   }
 
-  function noteHost(box){
+  // ── заметки и действия под пунктом ────────────────────────────
+  function tools(box){
     var lbl = document.querySelector('label[for="' + box.id + '"]');
     if (!lbl) return null;
     var host = lbl.querySelector('.note');
@@ -512,30 +511,39 @@
     return host;
   }
 
-  function renderNote(box){
-    var host = noteHost(box);
+  function renderTools(box){
+    var host = tools(box);
     if (!host) return;
-    var txt = notes[box.id] || '';
     host.innerHTML = '';
+    var txt = notes[box.id] || '';
     if (txt){
       var span = document.createElement('span');
       span.className = 'note-text';
       span.textContent = txt;
-      span.title = 'Нажми, чтобы изменить';
+      span.title = 'Изменить комментарий';
       span.addEventListener('click', function(e){ e.preventDefault(); editNote(box); });
       host.appendChild(span);
-    } else {
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'note-add';
-      btn.textContent = 'комментарий';
-      btn.addEventListener('click', function(e){ e.preventDefault(); editNote(box); });
-      host.appendChild(btn);
     }
+    var acts = document.createElement('span');
+    acts.className = 'acts';
+    if (!txt) acts.appendChild(btn('комментарий', function(){ editNote(box); }));
+    var li = box.closest('li');
+    if (li && !li.classList.contains('sub')) acts.appendChild(btn('+ деталь', function(){ addItem(meta(box).group, box.id, li); }));
+    acts.appendChild(btn('удалить', function(){ removeItem(box); }, 'del'));
+    host.appendChild(acts);
+  }
+
+  function btn(label, fn, cls){
+    var b = document.createElement('button');
+    b.type = 'button';
+    if (cls) b.className = cls;
+    b.textContent = label;
+    b.addEventListener('click', function(e){ e.preventDefault(); fn(); });
+    return b;
   }
 
   function editNote(box){
-    var host = noteHost(box);
+    var host = tools(box);
     if (!host) return;
     host.innerHTML = '';
     var inp = document.createElement('input');
@@ -545,18 +553,15 @@
     host.appendChild(inp);
     inp.focus();
     var done = false;
-    function finish(save){
-      if (done) return;
-      done = true;
-      if (save){
+    function finish(ok){
+      if (done) return; done = true;
+      if (ok){
         var v = inp.value.trim();
         if (v) notes[box.id] = v; else delete notes[box.id];
-        try { localStorage.setItem(KNOTES, JSON.stringify(notes)); } catch(e) {}
-        var m = meta(box);
-        pending[box.id] = { key: box.id, label: m.label, section: m.section, value: box.checked, comment: v };
-        schedule();
+        save(KNOTES, notes);
+        queue(box, { comment: v });
       }
-      renderNote(box);
+      renderTools(box);
     }
     inp.addEventListener('keydown', function(e){
       if (e.key === 'Enter'){ e.preventDefault(); finish(true); }
@@ -574,10 +579,120 @@
       var span = document.createElement('span');
       span.className = 'who-mark';
       span.textContent = info.who + ' · ' + (info.when || '');
-      lbl.appendChild(span);
+      lbl.insertBefore(span, lbl.querySelector('.note'));
     }
   }
 
+  // ── пункты: создание, удаление ────────────────────────────────
+  function makeLi(key, label, parent){
+    var li = document.createElement('li');
+    if (parent) { li.className = 'sub'; li.setAttribute('data-parent', parent); }
+    var cb = document.createElement('input');
+    cb.type = 'checkbox'; cb.id = key;
+    var lb = document.createElement('label');
+    lb.setAttribute('for', key);
+    lb.className = 'what';
+    lb.appendChild(document.createTextNode(label));
+    li.appendChild(cb);
+    li.appendChild(lb);
+    bind(cb);
+    cb.setAttribute('data-bound','1');
+    return li;
+  }
+
+  function place(li, group, parent){
+    var host = document.querySelector('[data-group="' + group + '"] ul.rows');
+    if (!host) return;
+    if (parent){
+      var anchor = document.getElementById(parent);
+      var after = anchor ? anchor.closest('li') : null;
+      if (after){
+        var next = after.nextElementSibling;
+        while (next && next.getAttribute && next.getAttribute('data-parent') === parent) { after = next; next = next.nextElementSibling; }
+        after.parentNode.insertBefore(li, after.nextSibling);
+        return;
+      }
+    }
+    var add = host.querySelector('li.addrow');
+    host.insertBefore(li, add || null);
+  }
+
+  function addItem(group, parent, afterLi){
+    var host = document.querySelector('[data-group="' + group + '"] ul.rows');
+    if (!host) return;
+    var tmp = document.createElement('li');
+    tmp.className = parent ? 'sub' : '';
+    var pad = document.createElement('span');
+    var inp = document.createElement('input');
+    inp.className = 'note-input';
+    inp.placeholder = parent ? 'детали или результат' : 'новый пункт';
+    tmp.appendChild(pad);
+    tmp.appendChild(inp);
+    if (parent && afterLi) afterLi.parentNode.insertBefore(tmp, afterLi.nextSibling);
+    else host.insertBefore(tmp, host.querySelector('li.addrow') || null);
+    inp.focus();
+    var done = false;
+    function finish(ok){
+      if (done) return; done = true;
+      var v = inp.value.trim();
+      tmp.remove();
+      if (!ok || !v) return;
+      var key = newKey();
+      custom[key] = { label: v, group: group, parent: parent || '' };
+      save(KCUSTOM, custom);
+      var li = makeLi(key, v, parent);
+      place(li, group, parent);
+      renderTools(document.getElementById(key));
+      refresh();
+      var m = meta(document.getElementById(key));
+      pending[key] = { key: key, label: v, section: m.section, group: group, parent: parent || '', value: false };
+      schedule();
+    }
+    inp.addEventListener('keydown', function(e){
+      if (e.key === 'Enter'){ e.preventDefault(); finish(true); }
+      if (e.key === 'Escape'){ e.preventDefault(); finish(false); }
+    });
+    inp.addEventListener('blur', function(){ finish(true); });
+  }
+
+  function removeItem(box){
+    var key = box.id;
+    var li = box.closest('li');
+    var subs = li ? li.parentNode.querySelectorAll('li[data-parent="' + key + '"]') : [];
+    if (subs.length && !confirm('Удалить пункт вместе с его деталями?')) return;
+    var m = meta(box);
+    [].forEach.call(subs, function(sub){
+      var k = sub.querySelector('input[type=checkbox]');
+      if (k){ hidden[k.id] = true; delete custom[k.id]; pending[k.id] = { key: k.id, deleted: true, value: false }; }
+      sub.remove();
+    });
+    hidden[key] = true;
+    delete custom[key];
+    delete state[key];
+    delete notes[key];
+    save(KHIDDEN, hidden); save(KCUSTOM, custom); save(KEY, state); save(KNOTES, notes);
+    pending[key] = { key: key, label: m.label, section: m.section, group: m.group, parent: m.parent, value: false, deleted: true };
+    if (li) li.remove();
+    refresh();
+    schedule();
+  }
+
+  function addButtons(){
+    document.querySelectorAll('[data-group]').forEach(function(grp){
+      var host = grp.querySelector('ul.rows');
+      if (!host || host.querySelector('li.addrow')) return;
+      var li = document.createElement('li');
+      li.className = 'addrow';
+      var pad = document.createElement('span');
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'addbtn'; b.textContent = '+ пункт';
+      b.addEventListener('click', function(){ addItem(grp.getAttribute('data-group'), '', null); });
+      li.appendChild(pad); li.appendChild(b);
+      host.appendChild(li);
+    });
+  }
+
+  // ── прогресс ──────────────────────────────────────────────────
   function refresh(){
     document.querySelectorAll('[data-stage]').forEach(function(st){
       var all = st.querySelectorAll('input[type=checkbox]');
@@ -592,24 +707,21 @@
       var done = sec.querySelectorAll('input[type=checkbox]:checked').length;
       el.textContent = done + " из " + all + " отмечено";
     });
-    var total = boxes.length;
-    var doneAll = boxes.filter(function(b){ return b.checked; }).length;
+    var list = boxes();
+    var doneAll = list.filter(function(b){ return b.checked; }).length;
     document.getElementById('total-done').textContent = doneAll;
-    document.getElementById('total-all').textContent = total;
-    document.getElementById('total-bar').style.width = (total ? Math.round(doneAll / total * 100) : 0) + "%";
+    document.getElementById('total-all').textContent = list.length;
+    document.getElementById('total-bar').style.width = (list.length ? Math.round(doneAll / list.length * 100) : 0) + "%";
   }
 
-  // ── обмен с таблицей ─────────────────────────────────────────
+  // ── обмен с таблицей ──────────────────────────────────────────
   function post(payload){
-    return fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload)
-    }).then(function(r){ return r.json(); });
+    return fetch(API_URL, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) })
+      .then(function(r){ return r.json(); });
   }
 
   function flush(){
-    if (!API_URL) { saveLocal(); return; }
+    if (!API_URL){ save(KEY, state); return; }
     var changes = Object.keys(pending).map(function(k){ return pending[k]; });
     if (!changes.length) return;
     pending = {};
@@ -621,22 +733,19 @@
         status('ok', 'сохранено в таблицу · ' + time());
       })
       .catch(function(err){
-        saveLocal();
+        save(KEY, state);
         if (String(err.message || err).indexOf('код доступа') > -1){
-          var val = prompt('Код доступа к таблице (задаётся в свойствах скрипта):');
+          var val = prompt('Код доступа к таблице:');
           if (val){ ls(function(){ localStorage.setItem(KPIN, val); }); changes.forEach(function(c){ pending[c.key] = c; }); schedule(); return; }
         }
-        status('err', 'таблица недоступна, отметки сохранены локально');
+        status('err', 'таблица недоступна, отметки сохранены в браузере');
       });
   }
 
-  function schedule(){
-    clearTimeout(timer);
-    timer = setTimeout(flush, 900);
-  }
+  function schedule(){ clearTimeout(timer); timer = setTimeout(flush, 900); }
 
   function pull(){
-    if (!API_URL){ status('', 'таблица не подключена — отметки живут в этом браузере'); return; }
+    if (!API_URL){ status('', 'таблица не подключена — отметки хранятся в браузере'); return; }
     status('warn', 'читаю таблицу…');
     fetch(API_URL + (API_URL.indexOf('?') > -1 ? '&' : '?') + 't=' + Date.now())
       .then(function(r){ return r.json(); })
@@ -645,25 +754,38 @@
         apply(res);
         status('ok', 'из таблицы · ' + time());
       })
-      .catch(function(){ status('err', 'таблица недоступна — показываю локальные отметки'); });
+      .catch(function(){ status('err', 'таблица недоступна — показаны отметки из браузера'); });
   }
 
   function apply(res){
     var srv = res.state || {};
-    boxes.forEach(function(b){
-      if (srv.hasOwnProperty(b.id)){
-        b.checked = !!srv[b.id].on;
-        state[b.id] = b.checked;
-        if (!b.checked) delete state[b.id];
-        paintRow(b);
-        stamp(b, srv[b.id]);
-        if (srv[b.id].note) notes[b.id] = srv[b.id].note; else delete notes[b.id];
-        renderNote(b);
+    // свои пункты из таблицы
+    Object.keys(srv).forEach(function(key){
+      var row = srv[key];
+      var el = document.getElementById(key);
+      if (row.deleted){
+        hidden[key] = true;
+        delete custom[key];
+        if (el){ var li = el.closest('li'); if (li) li.remove(); }
+        return;
       }
+      if (!el && row.label && key.charAt(0) === 'u'){
+        custom[key] = { label: row.label, group: row.group || '', parent: row.parent || '' };
+        var li = makeLi(key, row.label, row.parent || '');
+        place(li, row.group || '', row.parent || '');
+        el = document.getElementById(key);
+      }
+      if (!el) return;
+      el.checked = !!row.on;
+      if (el.checked) state[key] = true; else delete state[key];
+      paintRow(el);
+      stamp(el, row);
+      if (row.note) notes[key] = row.note; else delete notes[key];
+      renderTools(el);
     });
+    save(KCUSTOM, custom); save(KHIDDEN, hidden); save(KEY, state); save(KNOTES, notes);
     metrics = res.metrics || [];
     renderMetrics();
-    saveLocal();
     refresh();
   }
 
@@ -672,7 +794,7 @@
     return ('0'+d.getHours()).slice(-2) + ':' + ('0'+d.getMinutes()).slice(-2);
   }
 
-  // ── факт по метрикам ─────────────────────────────────────────
+  // ── факт по метрикам ──────────────────────────────────────────
   function num(v){
     if (v === '' || v == null) return null;
     var n = parseFloat(String(v).replace(/\s/g,'').replace(',', '.').replace(/[^0-9.\-]/g,''));
@@ -681,16 +803,15 @@
 
   function renderMetrics(){
     var tb = document.getElementById('fact-rows');
+    if (!tb) return;
     tb.innerHTML = '';
     if (!metrics.length){
       tb.innerHTML = '<tr><td colspan="7" class="empty">' +
-        (API_URL ? 'В листе «Метрики_факт» пока пусто' : 'Подключи таблицу — и факт появится здесь') +
-        '</td></tr>';
+        (API_URL ? 'В листе «Метрики_факт» пока пусто' : 'Таблица не подключена — факт появится после подключения') + '</td></tr>';
       return;
     }
     metrics.slice().reverse().forEach(function(m){
-      var p = num(m.plan), f = num(m.fact);
-      var d = '', cls = '';
+      var p = num(m.plan), f = num(m.fact), d = '', cls = '';
       if (p !== null && f !== null && p !== 0){
         var pct = Math.round((f / p - 1) * 100);
         d = (pct > 0 ? '+' : '') + pct + '%';
@@ -716,10 +837,11 @@
     });
   }
 
-  document.getElementById('f-add').addEventListener('click', function(){
+  var addBtn = document.getElementById('f-add');
+  if (addBtn) addBtn.addEventListener('click', function(){
     var name = document.getElementById('f-name').value.trim();
     if (!name){ document.getElementById('f-name').focus(); return; }
-    if (!API_URL){ alert('Сначала подключи таблицу: вставь адрес веб-приложения в начало скрипта на этой странице.'); return; }
+    if (!API_URL){ alert('Таблица не подключена: адрес задаётся кнопкой «Подключить таблицу».'); return; }
     var m = {
       name: name,
       plan: document.getElementById('f-plan').value.trim(),
@@ -734,91 +856,90 @@
         ['f-plan','f-fact','f-comment'].forEach(function(id){ document.getElementById(id).value = ''; });
         status('ok', 'записано в таблицу · ' + time());
       })
-      .catch(function(){ status('err', 'не удалось записать — проверь доступ к таблице'); });
+      .catch(function(){ status('err', 'не удалось записать — нет доступа к таблице'); });
   });
 
-  // ── выгрузка в Excel ─────────────────────────────────────────
+  // ── выгрузка в Excel ──────────────────────────────────────────
   document.getElementById('xlsx').addEventListener('click', function(){
-    if (typeof XLSX === 'undefined'){ alert('Библиотека выгрузки не загрузилась — проверь интернет.'); return; }
-    var rows = [['Раздел', 'Пункт', 'Отмечено', 'Кто', 'Когда', 'Комментарий']];
-    boxes.forEach(function(b){
+    if (typeof XLSX === 'undefined'){ alert('Библиотека выгрузки не загрузилась — нет соединения.'); return; }
+    var rows = [['Раздел', 'Пункт', 'Уровень', 'Отмечено', 'Кто', 'Когда', 'Комментарий']];
+    boxes().forEach(function(b){
       var m = meta(b);
-      var lbl = document.querySelector('label[for="' + b.id + '"] .who-mark');
-      var mark = lbl ? lbl.textContent.split(' · ') : ['', ''];
-      rows.push([m.section, m.label, b.checked ? 'да' : '', b.checked ? (mark[0] || who()) : '', mark[1] || '', notes[b.id] || '']);
+      var mark = document.querySelector('label[for="' + b.id + '"] .who-mark');
+      var parts = mark ? mark.textContent.split(' · ') : ['', ''];
+      rows.push([m.section, m.label, m.parent ? 'деталь' : 'пункт', b.checked ? 'да' : '',
+                 b.checked ? (parts[0] || who()) : '', parts[1] || '', notes[b.id] || '']);
     });
     var wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Адаптация');
-
     var mrows = [['Дата', 'Метрика', 'План', 'Факт', 'Комментарий', 'Кто внёс']];
     metrics.forEach(function(m){ mrows.push([m.date, m.name, m.plan, m.fact, m.comment, m.who]); });
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(mrows), 'Метрики');
-
     var d = new Date();
-    var name = 'adaptaciya-ropa-' + d.getFullYear() + ('0'+(d.getMonth()+1)).slice(-2) + ('0'+d.getDate()).slice(-2) + '.xlsx';
-    XLSX.writeFile(wb, name);
+    XLSX.writeFile(wb, 'adaptaciya-ropa-' + d.getFullYear() + ('0'+(d.getMonth()+1)).slice(-2) + ('0'+d.getDate()).slice(-2) + '.xlsx');
   });
 
   document.getElementById('pull').addEventListener('click', pull);
 
   document.getElementById('link').addEventListener('click', function(){
-    var cur = API_URL || '';
-    var val = prompt('Адрес веб-приложения Apps Script (заканчивается на /exec):', cur);
+    var val = prompt('Адрес веб-приложения Apps Script (заканчивается на /exec):', API_URL || '');
     if (val === null) return;
     val = val.trim();
-    if (val && val.indexOf('/exec') === -1){
-      alert('Похоже, это не тот адрес: нужный заканчивается на /exec.');
-      return;
-    }
+    if (val && val.indexOf('/exec') === -1){ alert('Похоже, это не тот адрес: нужный заканчивается на /exec.'); return; }
     API_URL = val;
-    try { val ? localStorage.setItem(KURL, val) : localStorage.removeItem(KURL); } catch(e) {}
-    if (API_URL) pull();
-    else status('', 'таблица отключена — отметки живут в этом браузере');
+    ls(function(){ val ? localStorage.setItem(KURL, val) : localStorage.removeItem(KURL); });
+    if (API_URL) pull(); else status('', 'таблица отключена — отметки хранятся в браузере');
   });
 
   document.getElementById('reset').addEventListener('click', function(){
     if (!confirm('Снять все отметки? В таблице они тоже обнулятся.')) return;
-    boxes.forEach(function(b){
-      if (b.checked){
-        b.checked = false;
-        paintRow(b);
-        stamp(b, null);
-        var m = meta(b);
-        pending[b.id] = { key: b.id, label: m.label, section: m.section, value: false };
-      }
+    boxes().forEach(function(b){
+      if (b.checked){ b.checked = false; paintRow(b); stamp(b, null); queue(b); }
     });
     state = {};
-    saveLocal();
+    save(KEY, state);
     refresh();
-    schedule();
   });
 
-  // ── старт ────────────────────────────────────────────────────
-  state = ls(function(){ return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; }, {});
-  notes = ls(function(){ return JSON.parse(localStorage.getItem(KNOTES) || '{}') || {}; }, {});
+  // ── привязка чекбоксов ────────────────────────────────────────
+  function bind(b){
+    b.addEventListener('change', function(){
+      if (b.checked) state[b.id] = true; else delete state[b.id];
+      paintRow(b);
+      if (!b.checked) stamp(b, null);
+      save(KEY, state);
+      refresh();
+      queue(b);
+    });
+  }
+
+  // ── старт ─────────────────────────────────────────────────────
   whoInput.value = ls(function(){ return localStorage.getItem(KWHO) || ''; }, '');
   whoInput.addEventListener('change', function(){ ls(function(){ localStorage.setItem(KWHO, whoInput.value.trim()); }); });
 
-  boxes.forEach(function(b){
+  addButtons();
+
+  Object.keys(custom).forEach(function(key){
+    if (hidden[key] || document.getElementById(key)) return;
+    var it = custom[key];
+    place(makeLi(key, it.label, it.parent), it.group, it.parent);
+  });
+
+  Object.keys(hidden).forEach(function(key){
+    var el = document.getElementById(key);
+    if (el){ var li = el.closest('li'); if (li) li.remove(); }
+  });
+
+  boxes().forEach(function(b){
     if (state[b.id]) b.checked = true;
     paintRow(b);
-    renderNote(b);
-    b.addEventListener('change', function(){
-      state[b.id] = b.checked;
-      if (!b.checked) delete state[b.id];
-      paintRow(b);
-      if (!b.checked) stamp(b, null);
-      saveLocal();
-      refresh();
-      var m = meta(b);
-      pending[b.id] = { key: b.id, label: m.label, section: m.section, value: b.checked };
-      schedule();
-    });
+    renderTools(b);
+    if (!b.getAttribute('data-bound')){ bind(b); b.setAttribute('data-bound','1'); }
   });
 
   refresh();
   renderMetrics();
-  if (API_URL) pull(); else status('', 'таблица не подключена — отметки живут в этом браузере');
+  if (API_URL) pull(); else status('', 'таблица не подключена — отметки хранятся в браузере');
 })();
 </script>
 
